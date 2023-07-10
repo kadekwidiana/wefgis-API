@@ -4,10 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Crop;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class CropController extends Controller
+class TypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,8 @@ class CropController extends Controller
      */
     public function index()
     {
-        $dataCrop = Crop::latest()->paginate(15);
-        return response()->json($dataCrop);
+        $dataType = Type::all();
+        return response()->json($dataType);
     }
 
     /**
@@ -38,40 +39,33 @@ class CropController extends Controller
      */
     public function store(Request $request)
     {
-        $validateData = $request->validate([
-            'id_type' => 'required',
-            'address' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
-            'description' => 'required',
-            'image' => 'required',
-            'plant_date' => 'required',
-            'valid' => 'required',
+        $validatedData = $request->validate([
+            'type_name' => 'required',
+            'image' => 'required'
         ]);
 
         try {
             if ($request->file('image')) {
-                $validateData['image'] = $request->file('image')->store('crop-image');
+                $validatedData['image'] = $request->file('image')->store('type-image');
             }
 
-            $crop = Crop::create($validateData);
-
-            if ($crop != null) {
+            $type = Type::create($validatedData);
+            if ($type != null) {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Crop data created successfully',
-                    'data' => $crop
+                    'message' => 'Type successfuly added',
+                    'data' => $type
                 ]);
             } else {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Crop data failed created',
+                    'message' => 'Type failed added'
                 ]);
             }
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Err',
+                'message' => 'Error',
                 'errors' => $e->getMessage()
             ]);
         }
@@ -86,11 +80,14 @@ class CropController extends Controller
     public function show($id)
     {
         try {
-            $crop = Crop::findOrFail($id);
+
+            $type = Type::findOrFail($id);
+            $crops = Crop::where('id_type', $id)->get();
 
             return response()->json([
                 'success' => true,
-                'data' => $crop
+                'type' => $type->type_name,
+                'dataCrop' => $crops
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -121,34 +118,26 @@ class CropController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
-            'id_type' => 'required',
-            'address' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
-            'description' => 'required',
-            // 'image' => 'required',
-            'plant_date' => 'required',
-            'valid' => 'required',
+            'type_name' => 'required'
         ]);
 
         try {
-            $crop = Crop::findOrFail($id);
+            $type = Type::findOrFail($id);
 
             if ($request->hasFile('image')) {
                 // Hapus gambar lama jika ada
-                if ($crop->image) {
-                    Storage::delete($crop->image);
+                if ($type->image) {
+                    Storage::delete($type->image);
                 }
                 // Simpan gambar baru
-                $validatedData['image'] = $request->file('image')->store('crop-image');
+                $validatedData['image'] = $request->file('image')->store('type-image');
             }
 
-            $crop->update($validatedData);
-
+            $type->update($validatedData);
             return response()->json([
                 'success' => true,
-                'message' => 'Crop data updated successfully',
-                'data' => $crop
+                'message' => 'Type success edit',
+                'data' => $type
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -168,21 +157,28 @@ class CropController extends Controller
     public function destroy($id)
     {
         try {
-            $crop = Crop::findOrFail($id);
-
-            // Hapus gambar terkait jika ada
-            if ($crop->image) {
-                Storage::delete($crop->image);
+            $type = Type::findOrFail($id);
+            $dataCrop = Crop::where('id_type', $id)->first();
+            if ($dataCrop) {
+                $dataCrop->delete();
+                return response()->json([
+                    'message' => 'This type hasmany data crops'
+                ]);
             }
 
-            $crop->delete();
+            if ($type->image) {
+                Storage::delete($type->image);
+            }
+
+            $type->delete();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Crop deleted successfully'
+                'message' => 'Type success deleted'
             ]);
         } catch (\Exception $e) {
             return response()->json([
+                'success' => false,
                 'message' => 'Error',
                 'errors' => $e->getMessage()
             ]);

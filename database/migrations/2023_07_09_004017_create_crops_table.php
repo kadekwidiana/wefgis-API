@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('crops', function (Blueprint $table) {
             $table->id();
-            $table->string('type_crop');
-            $table->string('image');
+            $table->foreignId('id_type')->references('id')->on('types');
             $table->string('address');
             $table->string('latitude');
             $table->string('longitude');
+            $table->text('description');
+            $table->string('image');
+            $table->date('plant_date');
+            $table->boolean('valid');
             $table->timestamps();
         });
     }

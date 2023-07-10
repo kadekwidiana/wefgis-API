@@ -10,10 +10,18 @@ class Crop extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type_crop',
-        'image',
+        'id_type',
         'address',
         'latitude',
         'longitude',
+        'description',
+        'image',
+        'plant_date',
+        'valid',
     ];
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
 }
