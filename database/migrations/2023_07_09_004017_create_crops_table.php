@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('crops', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_type')->references('id')->on('types');
+            $table->string('label');
             $table->string('address');
             $table->string('latitude');
             $table->string('longitude');

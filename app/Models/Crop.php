@@ -11,6 +11,7 @@ class Crop extends Model
 
     protected $fillable = [
         'id_type',
+        'label',
         'address',
         'latitude',
         'longitude',

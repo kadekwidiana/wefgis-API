@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Crop;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -40,6 +41,7 @@ class CropController extends Controller
     {
         $validateData = $request->validate([
             'id_type' => 'required',
+            'label' => 'required',
             'address' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -50,6 +52,18 @@ class CropController extends Controller
         ]);
 
         try {
+            $cropType = Type::where('type_name', $request->input('label'))->first();
+
+            if ($cropType) {
+                $validateData['id_type'] = $cropType->id;
+            } else {
+                $validateData['id_type'] = $request->input('type_name');
+            }
+
+            if ($request->input('valid') == 0) {
+                $validateData['id_type'] = $request->input('id_type');
+            }
+
             if ($request->file('image')) {
                 $validateData['image'] = $request->file('image')->store('crop-image');
             }
@@ -133,6 +147,19 @@ class CropController extends Controller
 
         try {
             $crop = Crop::findOrFail($id);
+
+            $cropType = Type::where('type_name', $request->input('label'))->first();
+
+            if ($cropType) {
+                $validatedData['id_type'] = $cropType->id;
+            } else {
+                $validatedData['id_type'] = $request->input('type_name');
+            }
+
+            if ($request->input('valid') == 0) {
+                $validatedData['id_type'] = $request->input('id_type');
+            }
+
 
             if ($request->hasFile('image')) {
                 // Hapus gambar lama jika ada
