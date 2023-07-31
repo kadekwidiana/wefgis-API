@@ -40,6 +40,7 @@ class CropController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
+            'id_user' => 'required',
             'id_type' => 'required',
             'label' => 'required',
             'address' => 'required',
@@ -135,6 +136,7 @@ class CropController extends Controller
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
+            'id_user' => 'required',
             'id_type' => 'required',
             'address' => 'required',
             'latitude' => 'required',

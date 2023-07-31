@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\API\AUTH\LoginController;
+use App\Http\Controllers\API\AUTH\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CropController;
 use App\Http\Controllers\API\TypeController;
+use App\Http\Controllers\API\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +23,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Crop
-Route::apiResource('crops', CropController::class);
-Route::post('/crops/{id}', [CropController::class, 'update']);
+// login
+Route::post('login', [LoginController::class, 'login']);
+// register
+Route::post('register', [RegisterController::class, 'register']);
 
-// Crop
-Route::apiResource('types', TypeController::class);
-Route::post('/types/{id}', [TypeController::class, 'update']);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    // user
+    Route::get('/user', [UserController::class, 'index']);
+    // Crop
+    Route::apiResource('crops', CropController::class);
+    Route::post('/crops/{id}', [CropController::class, 'update']);
+
+    // Crop type
+    Route::apiResource('types', TypeController::class);
+    Route::post('/types/{id}', [TypeController::class, 'update']);
+});
