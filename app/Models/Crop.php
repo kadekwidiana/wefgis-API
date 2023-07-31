@@ -24,7 +24,7 @@ class Crop extends Model
 
     public function type()
     {
-        return $this->belongsTo(Type::class);
+        return $this->belongsTo(Type::class, 'id_type', 'id');
     }
 
     public function author()

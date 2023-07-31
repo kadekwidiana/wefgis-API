@@ -15,9 +15,29 @@ class CropController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $dataCrop = Crop::latest()->paginate(15);
+        $search = $request->search;
+        $publish = $request->publish;
+
+        $query = Crop::query();
+
+        if ($search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('id_type', 'like', '%' . $search . '%')
+                    ->orWhereHas('type', function ($query) use ($search) {
+                        $query->where('type_name', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+        if ($publish === '1') {
+            $query->where('valid', 1);
+        }
+        if ($publish === '0') {
+            $query->where('valid', 0);
+        }
+
+        $dataCrop = $query->latest()->paginate(10);
         return response()->json($dataCrop);
     }
 
@@ -66,7 +86,27 @@ class CropController extends Controller
             }
 
             if ($request->file('image')) {
-                $validateData['image'] = $request->file('image')->store('crop-image');
+                // if ($validateData['id_type'] == 1) {
+                //     $validateData['image'] = $request->file('image')->store('cassava-image');
+                // }
+                // save image based on label
+                switch ($validateData['id_type']) {
+                    case 1:
+                        $validateData['image'] = $request->file('image')->store('paddy-image');
+                        break;
+                    case 2:
+                        $validateData['image'] = $request->file('image')->store('cassava-image');
+                        break;
+                    case 3:
+                        $validateData['image'] = $request->file('image')->store('corn-image');
+                        break;
+                    case 4:
+                        $validateData['image'] = $request->file('image')->store('sugarcane-image');
+                        break;
+                    default:
+                        $validateData['image'] = $request->file('image')->store('all-image-crops');
+                        break;
+                }
             }
 
             $crop = Crop::create($validateData);
@@ -135,9 +175,10 @@ class CropController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validatedData = $request->validate([
+        $validateData = $request->validate([
             'id_user' => 'required',
             'id_type' => 'required',
+            'label' => 'required',
             'address' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -153,13 +194,13 @@ class CropController extends Controller
             $cropType = Type::where('type_name', $request->input('label'))->first();
 
             if ($cropType) {
-                $validatedData['id_type'] = $cropType->id;
+                $validateData['id_type'] = $cropType->id;
             } else {
-                $validatedData['id_type'] = $request->input('type_name');
+                $validateData['id_type'] = $request->input('type_name');
             }
 
             if ($request->input('valid') == 0) {
-                $validatedData['id_type'] = $request->input('id_type');
+                $validateData['id_type'] = $request->input('id_type');
             }
 
 
@@ -168,11 +209,26 @@ class CropController extends Controller
                 if ($crop->image) {
                     Storage::delete($crop->image);
                 }
-                // Simpan gambar baru
-                $validatedData['image'] = $request->file('image')->store('crop-image');
+                switch ($validateData['id_type']) {
+                    case 1:
+                        $validateData['image'] = $request->file('image')->store('paddy-image');
+                        break;
+                    case 2:
+                        $validateData['image'] = $request->file('image')->store('cassava-image');
+                        break;
+                    case 3:
+                        $validateData['image'] = $request->file('image')->store('corn-image');
+                        break;
+                    case 4:
+                        $validateData['image'] = $request->file('image')->store('sugarcane-image');
+                        break;
+                    default:
+                        $validateData['image'] = $request->file('image')->store('all-image-crops');
+                        break;
+                }
             }
 
-            $crop->update($validatedData);
+            $crop->update($validateData);
 
             return response()->json([
                 'success' => true,
