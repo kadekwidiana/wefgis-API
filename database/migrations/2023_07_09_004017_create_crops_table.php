@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('longitude');
             $table->text('description');
             $table->string('image');
-            $table->date('plant_date');
+            $table->string('plant_age');
             $table->boolean('valid');
             $table->timestamps();
         });

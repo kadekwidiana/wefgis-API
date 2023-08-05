@@ -41,6 +41,12 @@ class CropController extends Controller
         return response()->json($dataCrop);
     }
 
+    public function allDataCrop()
+    {
+        $dataCrop = Crop::all();
+        return response()->json($dataCrop);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -68,7 +74,7 @@ class CropController extends Controller
             'longitude' => 'required',
             'description' => 'required',
             'image' => 'required',
-            'plant_date' => 'required',
+            'plant_age' => 'required',
             'valid' => 'required',
         ]);
 
@@ -184,7 +190,7 @@ class CropController extends Controller
             'longitude' => 'required',
             'description' => 'required',
             // 'image' => 'required',
-            'plant_date' => 'required',
+            'plant_age' => 'required',
             'valid' => 'required',
         ]);
 

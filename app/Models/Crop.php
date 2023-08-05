@@ -18,7 +18,7 @@ class Crop extends Model
         'longitude',
         'description',
         'image',
-        'plant_date',
+        'plant_age',
         'valid',
     ];
 

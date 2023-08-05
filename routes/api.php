@@ -35,6 +35,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResource('crops', CropController::class);
     Route::post('/crops/{id}', [CropController::class, 'update']);
 
+    // marker
+    Route::get('/allData', [CropController::class, 'allDataCrop']);
+
     // Crop type
     Route::apiResource('types', TypeController::class);
     Route::post('/types/{id}', [TypeController::class, 'update']);
