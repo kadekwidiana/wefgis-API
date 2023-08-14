@@ -41,4 +41,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // Crop type
     Route::apiResource('types', TypeController::class);
     Route::post('/types/{id}', [TypeController::class, 'update']);
+
+    // data agregat
+    Route::get('data-agregat', [CropController::class, 'dataAgregat'])->name('data-agregat');
 });

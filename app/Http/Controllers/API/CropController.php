@@ -10,6 +10,43 @@ use Illuminate\Support\Facades\Storage;
 
 class CropController extends Controller
 {
+    // data agregat
+    public function dataAgregat(Request $request)
+    {
+        $search = $request->search;
+        $typesQuery = Type::query();
+
+        // Jika ada kriteria pencarian, tambahkan where clause
+        if ($search) {
+            $typesQuery->where('type_name', 'like', '%' . $search . '%');
+        }
+
+        $types = $typesQuery->get();
+        $totalLocation = Crop::count();
+
+        $result = [];
+
+        foreach ($types as $type) {
+
+            // Count total valid data crop by type
+            $validCropCount = $type->crops()->where('valid', 1)->count();
+
+            // Count total data crop by type
+            $totalCropCount = $type->crops()->count();
+
+
+            $result[] = [
+                'typeName' => $type->type_name,
+                'imageType' => $type->image,
+                'validCropCount' => $validCropCount,
+                'totalCropCount' => $totalCropCount,
+                'totalLocation' => $totalLocation
+            ];
+        }
+
+
+        return response()->json($result);
+    }
     /**
      * Display a listing of the resource.
      *
