@@ -11,6 +11,10 @@ class UserController extends Controller
     public function index()
     {
         $dataUser = User::all();
+        foreach ($dataUser as &$item) {
+            $item->is_admin = (int) $item->is_admin;
+        }
+        unset($item); 
         return response()->json($dataUser);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CropChacoengsaoController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,10 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -28,4 +25,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+
+Route::get('/', function () {
+    return view('frontpage.maps');
+});
+
+Route::get('/pointCrop/json', [CropChacoengsaoController::class, 'pointCropJson'])->name('json-crop');
+Route::get('/earthData', [CropChacoengsaoController::class, 'dataEarth'])->name('json-earth');
+
+// GEE
+Route::get('/water-occurrences', [CropChacoengsaoController::class, 'getWaterOccurrences']);
+// VHI
+Route::post('/vhi-data', [CropChacoengsaoController::class, 'getVhiData']);
+
+Route::post('/water-preception',[CropChacoengsaoController::class, 'preception'])->name('preception');
+Route::post('/vci',[CropChacoengsaoController::class, 'vci'])->name('vci');

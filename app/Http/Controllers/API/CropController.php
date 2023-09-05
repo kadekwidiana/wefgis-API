@@ -75,12 +75,28 @@ class CropController extends Controller
         }
 
         $dataCrop = $query->latest()->paginate(10);
+
+        foreach ($dataCrop as &$item) {
+            $item->id_type = (int) $item->id_type;
+            $item->id_user = (int) $item->id_user;
+            $item->valid = (int) $item->valid;
+        }
+        unset($item); // Unset the reference to avoid unintended modifications outside the loop
+        
+        // Now $dataCrop has the desired fields cast to integers
+        
         return response()->json($dataCrop);
     }
 
     public function allDataCrop()
     {
         $dataCrop = Crop::all();
+        foreach ($dataCrop as &$item) {
+            $item->id_type = (int) $item->id_type;
+            $item->id_user = (int) $item->id_user;
+            $item->valid = (int) $item->valid;
+        }
+        unset($item); 
         return response()->json($dataCrop);
     }
 
@@ -129,10 +145,6 @@ class CropController extends Controller
             }
 
             if ($request->file('image')) {
-                // if ($validateData['id_type'] == 1) {
-                //     $validateData['image'] = $request->file('image')->store('cassava-image');
-                // }
-                // save image based on label
                 switch ($validateData['id_type']) {
                     case 1:
                         $validateData['image'] = $request->file('image')->store('paddy-image');
@@ -145,6 +157,9 @@ class CropController extends Controller
                         break;
                     case 4:
                         $validateData['image'] = $request->file('image')->store('sugarcane-image');
+                        break;
+                    case 5:
+                        $validateData['image'] = $request->file('image')->store('soybean-image');
                         break;
                     default:
                         $validateData['image'] = $request->file('image')->store('all-image-crops');
@@ -264,6 +279,9 @@ class CropController extends Controller
                         break;
                     case 4:
                         $validateData['image'] = $request->file('image')->store('sugarcane-image');
+                        break;
+                    case 5:
+                        $validateData['image'] = $request->file('image')->store('soybean-image');
                         break;
                     default:
                         $validateData['image'] = $request->file('image')->store('all-image-crops');
