@@ -1,5 +1,5 @@
 // earth data
-$.getJSON("http://127.0.0.1:8000/api/earthData", function (data) {
+$.getJSON("/earthData", function (data) {
     // Object data
     var datas = data.data;
 

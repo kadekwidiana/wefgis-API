@@ -118,7 +118,7 @@ const vci = L.layerGroup();
 const vhi = L.layerGroup();
 
 // earth data
-$.getJSON("/api/earthData", function (data) {
+$.getJSON("/earthData", function (data) {
     let tciUrl = data.map.tci;
     let vciUrl = data.map.vci;
     let vhiUrl = data.map.vhi;
@@ -166,8 +166,8 @@ document.getElementById('vhi').addEventListener('change', function () {
 });
 
 // WATER GEE
-$.getJSON("/api/water-occurrences", function (data_map) {
-    console.log(data_map.map.IGBP);
+$.getJSON("/water-occurrences", function (data_map) {
+    // console.log(data_map.map.IGBP);
 
     const tileLayer_changeIntensity = L.tileLayer(data_map.map.ChangeIntensity, {
     });
@@ -269,7 +269,7 @@ $(document).ready(function () {
         };
 
         // URL tujuan
-        var url = "/api/water-preception";
+        var url = "/water-preception";
 
         $.ajax({
             type: "POST",
@@ -349,7 +349,6 @@ var customZoomControl = L.control.zoom({
 });
 // Add the custom zoom control to the map
 map.addControl(customZoomControl);
-
 
 // Menambahkan event listener untuk checkbox
 var checkboxes = document.querySelectorAll('.itemCheckbox');

@@ -4,7 +4,6 @@
     <!-- Content -->
     <div class="content">
         <div id="map">
-
         </div>
     </div>
 @endsection

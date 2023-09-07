@@ -88,12 +88,17 @@ $(document).ready(function () {
                     $('#loading-overlay').show();
                     $('#failed').hide();
 
+                    // Mendapatkan CSRF token dari meta tag HTML
+                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
                     var postData = {
                         geometry: '[' + data[index].longitude + ',' + data[index].latitude + ']',
                         type: 'point',
                         startYear: 2020,
                         endYear: 2022
                     };
+
+                    postData._token = csrfToken;
 
                     // Fungsi untuk mengambil data dan membuat chart
                     function fetchDataAndCreateChart(url, responseKey, chartTitle, canvasId) {
@@ -203,5 +208,82 @@ $(document).ready(function () {
                 });
             }
         });
+    });
+});
+
+
+// Fungsi untuk mengganti basemap
+function changeBasemap(newBasemap) {
+    map.eachLayer(function (layer) {
+        map.removeLayer(layer);
+    });
+    newBasemap.addTo(map);
+}
+
+// Daftar pilihan basemap dan elemen input yang berkaitan
+var basemapOptions = [
+    { name: 'openStreetMap', layer: openStreetMap },
+    { name: 'googleStreetMap', layer: googleStreetMap },
+    { name: 'satelliteMap', layer: satelliteMap },
+    { name: 'googleHibridMap', layer: googleHibridMap },
+    { name: 'openTopoMap', layer: openTopoMap },
+    { name: 'esriWorldStreetMap', layer: esriWorldStreetMap },
+    { name: 'esriSatelite', layer: esriSatelite },
+    { name: 'googleEarth', layer: googleEarth }
+];
+
+// Loop untuk menambahkan event listener ke setiap input
+basemapOptions.forEach(function (option) {
+    document.querySelector('input[value="' + option.name + '"]').addEventListener('change', function () {
+        changeBasemap(option.layer);
+    });
+});
+
+
+// Memilih semua gambar basemap
+var basemapImages = document.querySelectorAll('.sidebar-basemap img');
+
+// Menambahkan event listener pada setiap gambar basemap
+basemapImages.forEach(function (image) {
+    image.addEventListener('click', function () {
+        var radio = this.closest('label').querySelector('input[type="radio"]');
+        radio.checked = true;
+
+        var selectedBasemap = radio.value;
+
+        map.eachLayer(function (layer) {
+            map.removeLayer(layer);
+        });
+
+        switch (selectedBasemap) {
+            case 'openStreetMap':
+                openStreetMap.addTo(map);
+                break;
+            case 'googleStreetMap':
+                googleStreetMap.addTo(map);
+                break;
+            case 'satelliteMap':
+                satelliteMap.addTo(map);
+                break;
+            case 'googleHibridMap':
+                googleHibridMap.addTo(map);
+                break;
+            case 'openTopoMap':
+                openTopoMap.addTo(map);
+                break;
+            case 'esriWorldStreetMap':
+                esriWorldStreetMap.addTo(map);
+                break;
+            case 'esriSatelite':
+                esriSatelite.addTo(map);
+                break;
+            case 'googleEarth':
+                googleEarth.addTo(map);
+                break;
+
+            default:
+                break;
+        }
+
     });
 });

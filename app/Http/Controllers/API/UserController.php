@@ -14,7 +14,7 @@ class UserController extends Controller
         foreach ($dataUser as &$item) {
             $item->is_admin = (int) $item->is_admin;
         }
-        unset($item); 
+        unset($item);
         return response()->json($dataUser);
     }
 }

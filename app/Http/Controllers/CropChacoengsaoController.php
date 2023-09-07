@@ -851,7 +851,7 @@ class CropChacoengsaoController extends Controller
     public function getWaterOccurrences()
     {
         try {
-            $response = Http::get('http://192.168.102.89:5000/wateroccurence');
+            $response = Http::get('http://rs.wefgis.com/wateroccurence');
             $data = $response->json();
             return response()->json($data);
         } catch (\Exception $e) {
@@ -872,60 +872,13 @@ class CropChacoengsaoController extends Controller
         ];
 
         try {
-            $response = Http::post('http://192.168.102.89:5000/vhi', $data);
+            $response = Http::post('http://rs.wefgis.com/vhi', $data);
             $responseData = $response->json();
             return response()->json($responseData, $response->status());
         } catch (\Exception $e) {
             return response()->json(['error' => 'API request failed'], 500);
         }
     }
-
-    // public function preception(Request $request){
-    //     $geometry = $request->input('geometry');
-    //     $type = $request->input('type');
-    //     $startYear = $request->input('startYear');
-    //     $endYear = $request->input('endYear');
-    
-    //     $response = Http::withHeaders([
-    //         'Accept: application/json',
-    //         'Content-Type: application/json',
-    //     ])->post('http://192.168.100.171:5000/precipitation', [
-    //         'geometry' => [101.585603,13.682281],
-    //         'type' => 'point',
-    //         'startYear' => 2022,
-    //         'endYear' => 2022
-    //     ]);
-    
-    //     return response()->json($response->json());
-    // }
-
-    // public function preception(Request $request) {
-    //     $geometry = $request->input('geometry');
-    //     $type = $request->input('type');
-    //     $startYear = $request->input('startYear');
-    //     $endYear = $request->input('endYear');
-    
-    //     $client = new Client([
-    //         'base_uri' => 'http://192.168.100.171:5000/',
-    //         'headers' => [
-    //             'Accept' => 'application/json',
-    //             'Content-Type' => 'application/json',
-    //         ],
-    //     ]);
-    
-    //     $response = $client->post('precipitation', [
-    //         'json' => [
-    //             'geometry' => $geometry,
-    //             'type' => $type,
-    //             'startYear' => $startYear,
-    //             'endYear' => $endYear,
-    //         ],
-    //     ]);
-    
-    //     $responseData = json_decode($response->getBody(), true);
-    
-    //     return response()->json($responseData);
-    // }
 
     public function preception(Request $request){
         $geometry = $request->input('geometry');
@@ -934,8 +887,10 @@ class CropChacoengsaoController extends Controller
         $endYear = $request->input('endYear');
 
         $client = new Client;
-        $url = "http://192.168.102.89:5000/precipitation/";
+
+        $url = "http://rs.wefgis.com/precipitation";
         $response = $client->post($url, [
+            // 'headers' => $headers,
             'form_params' => [
                 'geometry' => $geometry,
                 'type' => $type,
@@ -954,7 +909,7 @@ class CropChacoengsaoController extends Controller
         $endYear = $request->input('endYear');
 
         $client = new Client;
-        $url = "http://192.168.102.89:5000/vci";
+        $url = "http://rs.wefgis.com/vci";
         $response = $client->post($url, [
             'form_params' => [
                 'geometry' => $geometry,
