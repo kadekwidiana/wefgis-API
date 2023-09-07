@@ -41,12 +41,10 @@ map.on('draw:created', function (e) {
         var coordinates = layer.getLatLng();
         var lat = coordinates.lat;
         var lng = coordinates.lng;
-        // var altitude = layer.options.altitude || 0; // Default to 0 if altitude not provided
 
         // Add coordinates and altitude to respective HTML elements
-        // $('#latitude').val(lat);
-        // $('#longitude').val(lng);
-        // $('#altitude').val(altitude);
+        $('#geometry').val("[" + lng + "," + lat + "]");
+        $('#type').val('Point');
     }
 
     if (type == 'polygon') {

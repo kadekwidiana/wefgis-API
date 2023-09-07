@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 
 class CropChacoengsaoController extends Controller
 {
+    private $baseUrl = "http://rs.wefgis.com";
     public function index()
     {
         $results = CropChachoengsao::all();
@@ -851,7 +852,8 @@ class CropChacoengsaoController extends Controller
     public function getWaterOccurrences()
     {
         try {
-            $response = Http::get('http://rs.wefgis.com/wateroccurence');
+            $url = $this->baseUrl.'/wateroccurence';
+            $response = Http::get($url);
             $data = $response->json();
             return response()->json($data);
         } catch (\Exception $e) {
@@ -871,8 +873,10 @@ class CropChacoengsaoController extends Controller
             'type' => $type,
         ];
 
+        $url = $this->baseUrl.'/vhi';
+
         try {
-            $response = Http::post('http://rs.wefgis.com/vhi', $data);
+            $response = Http::post($url, $data);
             $responseData = $response->json();
             return response()->json($responseData, $response->status());
         } catch (\Exception $e) {
@@ -888,7 +892,7 @@ class CropChacoengsaoController extends Controller
 
         $client = new Client;
 
-        $url = "http://rs.wefgis.com/precipitation";
+        $url = $this->baseUrl."/precipitation";
         $response = $client->post($url, [
             // 'headers' => $headers,
             'form_params' => [
@@ -909,7 +913,7 @@ class CropChacoengsaoController extends Controller
         $endYear = $request->input('endYear');
 
         $client = new Client;
-        $url = "http://rs.wefgis.com/vci";
+        $url = $this->baseUrl."/vci";
         $response = $client->post($url, [
             'form_params' => [
                 'geometry' => $geometry,

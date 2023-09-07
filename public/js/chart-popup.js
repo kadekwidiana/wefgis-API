@@ -1,4 +1,44 @@
 // LAYER MARKER CROP
+// Fungsi untuk membuat ikon
+function createCustomIcon(iconUrl) {
+    return L.icon({
+        iconUrl: iconUrl,
+        iconSize: [25, 32], // ukuran ikon
+        iconAnchor: [16, 32], // anchor point pada ikon
+        popupAnchor: [0, -32]
+    });
+}
+
+// Definisikan ikon-ikon dengan menggunakan fungsi createCustomIcon
+var baresoilIcon = createCustomIcon('assets/icons/icon-marker/baresoil.png');
+var cassavaIcon = createCustomIcon('assets/icons/icon-marker/cassava.png');
+var cropIcon = createCustomIcon('assets/icons/icon-marker/corn.png');
+var eucalyptusIcon = createCustomIcon('assets/icons/icon-marker/eucalyptus.png');
+var forestIcon = createCustomIcon('assets/icons/icon-marker/forest.png');
+var grasslandIcon = createCustomIcon('assets/icons/icon-marker/grassland.png');
+var paddyIcon = createCustomIcon('assets/icons/icon-marker/paddy.png');
+var palmIcon = createCustomIcon('assets/icons/icon-marker/palm.png');
+var rubberIcon = createCustomIcon('assets/icons/icon-marker/rubber.png');
+var settlementIcon = createCustomIcon('assets/icons/icon-marker/gedung.png');
+var sugarcaneIcon = createCustomIcon('assets/icons/icon-marker/sugarcan.png');
+var waterIcon = createCustomIcon('assets/icons/icon-marker/water.png');
+var cornIcon = createCustomIcon('assets/icons/icon-marker/corn.png');
+
+
+// const baresoil = L.layerGroup();
+const cassava = L.layerGroup();
+const baresoil = L.layerGroup();
+const crop = L.layerGroup();
+const eucalyptus = L.layerGroup();
+const forest = L.layerGroup();
+const grassland = L.layerGroup();
+const paddy = L.layerGroup();
+const palm = L.layerGroup();
+const rubber = L.layerGroup();
+const settlement = L.layerGroup();
+const sugarcane = L.layerGroup();
+const water = L.layerGroup();
+
 // Fungsi event listener untuk checkbox
 function checkboxEventListener(checkboxId, layer) {
     document.getElementById(checkboxId).addEventListener('change', function () {
@@ -27,7 +67,6 @@ checkboxEventListener('point_water', water);
 // get data by mysql
 $(document).ready(function () {
     $.getJSON('/pointCrop/json', function (data) {
-        // loop class Baresoil
         // Membuat objek untuk memetakan kelas dengan ikon dan grupnya
         var classToIcon = {
             'Baresoil': { icon: baresoilIcon, group: baresoil },
@@ -202,88 +241,11 @@ $(document).ready(function () {
                             }
                         });
                     }
-                    // Pemanggilan fungsi untuk kedua endpoint
+                    // Pemanggilan fungsi untuk endpoint
                     fetchDataAndCreateChart("/water-preception", "precipitation", "Cumulative Rainfall (mm)", "myChart1");
-                    fetchDataAndCreateChart("/vci", "VCI", "VCI (mm)", "myChart2");
+                    fetchDataAndCreateChart("/vci", "VCI", "VCI", "myChart2");
                 });
             }
         });
-    });
-});
-
-
-// Fungsi untuk mengganti basemap
-function changeBasemap(newBasemap) {
-    map.eachLayer(function (layer) {
-        map.removeLayer(layer);
-    });
-    newBasemap.addTo(map);
-}
-
-// Daftar pilihan basemap dan elemen input yang berkaitan
-var basemapOptions = [
-    { name: 'openStreetMap', layer: openStreetMap },
-    { name: 'googleStreetMap', layer: googleStreetMap },
-    { name: 'satelliteMap', layer: satelliteMap },
-    { name: 'googleHibridMap', layer: googleHibridMap },
-    { name: 'openTopoMap', layer: openTopoMap },
-    { name: 'esriWorldStreetMap', layer: esriWorldStreetMap },
-    { name: 'esriSatelite', layer: esriSatelite },
-    { name: 'googleEarth', layer: googleEarth }
-];
-
-// Loop untuk menambahkan event listener ke setiap input
-basemapOptions.forEach(function (option) {
-    document.querySelector('input[value="' + option.name + '"]').addEventListener('change', function () {
-        changeBasemap(option.layer);
-    });
-});
-
-
-// Memilih semua gambar basemap
-var basemapImages = document.querySelectorAll('.sidebar-basemap img');
-
-// Menambahkan event listener pada setiap gambar basemap
-basemapImages.forEach(function (image) {
-    image.addEventListener('click', function () {
-        var radio = this.closest('label').querySelector('input[type="radio"]');
-        radio.checked = true;
-
-        var selectedBasemap = radio.value;
-
-        map.eachLayer(function (layer) {
-            map.removeLayer(layer);
-        });
-
-        switch (selectedBasemap) {
-            case 'openStreetMap':
-                openStreetMap.addTo(map);
-                break;
-            case 'googleStreetMap':
-                googleStreetMap.addTo(map);
-                break;
-            case 'satelliteMap':
-                satelliteMap.addTo(map);
-                break;
-            case 'googleHibridMap':
-                googleHibridMap.addTo(map);
-                break;
-            case 'openTopoMap':
-                openTopoMap.addTo(map);
-                break;
-            case 'esriWorldStreetMap':
-                esriWorldStreetMap.addTo(map);
-                break;
-            case 'esriSatelite':
-                esriSatelite.addTo(map);
-                break;
-            case 'googleEarth':
-                googleEarth.addTo(map);
-                break;
-
-            default:
-                break;
-        }
-
     });
 });

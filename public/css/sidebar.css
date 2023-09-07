@@ -77,6 +77,7 @@
 }
 
 /* SIDEBAR LEFT */
+.sidebar-analisis-point,
 .sidebar-analisis {
     position: fixed;
     left: -450px;
@@ -95,12 +96,14 @@
     overflow-x: auto;
 }
 
+.sidebar-analisis-point.active,
 .sidebar-analisis.active {
     left: 0;
 }
 
 /* Container control analisis */
 .container-control-analisis,
+.container-control-analisis-point,
 .leaflet-control-scale,
 /* search */
 .leaflet-control-geocoder,
@@ -111,6 +114,7 @@
 }
 
 /* Button control analisis */
+.button-control-analisis-point,
 .button-control-analisis {
     background-color: transparent !important;
     border: none !important;

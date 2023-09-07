@@ -98,31 +98,31 @@
             <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Crop</p>
             <div class="p-2">
                 <div class="form-check">
-                    <input name="corn" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="point_corn" data-layer="corn">
+                    <input name="corn" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="point_corn" data-layer="corn">
                     <label class="form-check-label" for="point_corn">
                         Corn
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="paddy" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="point_paddy" data-layer="paddy">
+                    <input name="paddy" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="point_paddy" data-layer="paddy">
                     <label class="form-check-label" for="point_paddy">
                         Paddy
                     </label>
                 </div>
 
                 <div class="form-check">
-                    <input name="baresoil" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="point_baresoil" data-layer="baresoil">
+                    <input name="baresoil" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="point_baresoil" data-layer="baresoil">
                     <label class="form-check-label" for="point_baresoil">
                         Baresoil
                     </label>
                 </div>
 
                 <div class="form-check">
-                    <input name="cassava" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="point_cassava" data-layer="cassava">
+                    <input name="cassava" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="point_cassava" data-layer="cassava">
                     <label class="form-check-label" for="point_cassava">
                         Cassava
                     </label>
@@ -137,8 +137,8 @@
                 </div>
 
                 <div class="form-check">
-                    <input name="forest" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="point_forest" data-layer="forest">
+                    <input name="forest" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="point_forest" data-layer="forest">
                     <label class="form-check-label" for="point_forest">
                         Forest
                     </label>
@@ -153,24 +153,24 @@
                 </div>
 
                 <div class="form-check">
-                    <input name="palm" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="point_palm" data-layer="palm">
+                    <input name="palm" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="point_palm" data-layer="palm">
                     <label class="form-check-label" for="point_palm">
                         Palm
                     </label>
                 </div>
 
                 <div class="form-check">
-                    <input name="rubber" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="point_rubber" data-layer="rubber">
+                    <input name="rubber" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="point_rubber" data-layer="rubber">
                     <label class="form-check-label" for="point_rubber">
                         Rubber
                     </label>
                 </div>
 
                 <div class="form-check">
-                    <input name="building" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="point_building" data-layer="building">
+                    <input name="building" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="point_building" data-layer="building">
                     <label class="form-check-label" for="point_building">
                         Building
                     </label>
@@ -185,8 +185,8 @@
                 </div>
 
                 <div class="form-check">
-                    <input name="water" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="point_water" data-layer="water">
+                    <input name="water" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="point_water" data-layer="water">
                     <label class="form-check-label" for="point_water">
                         Water
                     </label>
@@ -201,22 +201,22 @@
             <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Google Earth Engine</p>
             <div class="p-2">
                 <div class="form-check">
-                    <input name="tci" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="tci" data-layer="tci">
+                    <input name="tci" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="tci" data-layer="tci">
                     <label class="form-check-label" for="tci">
                         TCI
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="vci" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="vci" data-layer="vci">
+                    <input name="vci" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="vci" data-layer="vci">
                     <label class="form-check-label" for="vci">
                         VCI
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="vhi" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="vhi" data-layer="vhi">
+                    <input name="vhi" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="vhi" data-layer="vhi">
                     <label class="form-check-label" for="vhi">
                         VHI
                     </label>
@@ -238,15 +238,15 @@
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="igbp" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="igbp" data-layer="igbp">
+                    <input name="igbp" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="igbp" data-layer="igbp">
                     <label class="form-check-label" for="igbp">
                         IGBP
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="lst" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="lst" data-layer="lst">
+                    <input name="lst" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="lst" data-layer="lst">
                     <label class="form-check-label" for="lst">
                         LST
                     </label>
@@ -259,8 +259,8 @@
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="water" class="form-check-input border border-secondary" type="checkbox" value=""
-                        id="water" data-layer="water">
+                    <input name="water" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="water" data-layer="water">
                     <label class="form-check-label" for="water">
                         Water
                     </label>
@@ -290,15 +290,15 @@
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="river_chachoengsao" class="form-check-input border border-secondary"
-                        type="checkbox" value="" id="river_chachoengsao" data-layer="river_chachoengsao">
+                    <input name="river_chachoengsao" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="river_chachoengsao" data-layer="river_chachoengsao">
                     <label class="form-check-label" for="river_chachoengsao">
                         River Chachoengsao
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="crops_chachoengsao" class="form-check-input border border-secondary"
-                        type="checkbox" value="" id="crops_chachoengsao" data-layer="crops_chachoengsao">
+                    <input name="crops_chachoengsao" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="crops_chachoengsao" data-layer="crops_chachoengsao">
                     <label class="form-check-label" for="crops_chachoengsao">
                         Crops Chachoengsao
                     </label>
@@ -444,10 +444,10 @@
         <div class="border rounded mt-2 p-2">
 
             <form action="" method="post" id="datForm">
-                <div class="form-group mt-2">
+                {{-- <div class="form-group mt-2">
                     <label for="geometry">Geometry</label>
                     <textarea class="form-control" id="geometry" name="geometry" placeholder="geojson"></textarea>
-                </div>
+                </div> --}}
                 <div class="form-group mt-2">
                     <label for="area">Area</label>
                     <input class="form-control" id="area" name="area" placeholder="area">
@@ -472,5 +472,39 @@
                 <p class="text-center">Month</p>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Sidebar analisis point -->
+<div class="container sidebar-analisis-point bg-white mt-0 pb-5" id="sidebar-analisis-point">
+    <h5 class="text-center">Information</h5>
+    <div class="border mb-2"></div>
+    <div class="col">
+        <div class="border rounded mt-2 p-2">
+
+            <form action="" method="post" id="datForm">
+                <div class="form-group mt-2">
+                    <label for="geometry">Geometry</label>
+                    <textarea class="form-control" id="geometry" name="geometry" placeholder="geojson"></textarea>
+                </div>
+                <div class="form-group mt-2">
+                    <label for="type">Type</label>
+                    <input class="form-control" id="type" name="type" placeholder="Type">
+                </div>
+                <div class="form-group mt-2">
+                    <label for="startYear">Start Year</label>
+                    <input class="form-control" id="startYear" name="startYear" placeholder="startYear">
+                </div>
+                <div class="form-group mt-2">
+                    <label for="endYear">End Year</label>
+                    <input class="form-control" id="endYear" name="endYear" placeholder="endYear">
+                </div>
+
+                <div class="d-flex justify-content-end mt-2">
+                    <button type="button" class="btn btn-info" id="getInfoByPoint">Get Information</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
