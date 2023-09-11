@@ -489,21 +489,54 @@
                 </div>
                 <div class="form-group mt-2">
                     <label for="type">Type</label>
-                    <input class="form-control" id="type" name="type" placeholder="Type">
+                    <input class="form-control" id="type" name="type" placeholder="Type" required>
                 </div>
                 <div class="form-group mt-2">
                     <label for="startYear">Start Year</label>
-                    <input class="form-control" id="startYear" name="startYear" placeholder="startYear">
+                    <input class="form-control" id="startYear" name="startYear" placeholder="startYear" required>
                 </div>
                 <div class="form-group mt-2">
                     <label for="endYear">End Year</label>
-                    <input class="form-control" id="endYear" name="endYear" placeholder="endYear">
+                    <input class="form-control" id="endYear" name="endYear" placeholder="endYear" required>
                 </div>
 
                 <div class="d-flex justify-content-end mt-2">
-                    <button type="button" class="btn btn-info" id="getInfoByPoint">Get Information</button>
+                    <button type="button" class="btn btn-info" id="reqInfo">Get Information</button>
                 </div>
             </form>
+        </div>
+        <div class="mt-3">
+            <div class="">
+                <div class="form-check">
+                    <input name="precipitation" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="precipitation_id" data-layer="precipitation">
+                    <label class="form-check-label" for="precipitation">
+                        Layer Precipitation
+                    </label>
+                </div>
+                <div class="border rounded mt-2 mb-3">
+                    <canvas id="chartRequestPrecipitation"></canvas>
+                    <p class="text-center">Month</p>
+                </div>
+            </div>
+            <div class="">
+                <div class="form-check">
+                    <input name="vci" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="vci_id" data-layer="vci">
+                    <label class="form-check-label" for="vci">
+                        Layer VCI
+                    </label>
+                </div>
+                <div class="border rounded mt-2 mb-3">
+                    <canvas id="chartRequestVci"></canvas>
+                    <p class="text-center">Month</p>
+                </div>
+            </div>
+            {{-- <div class="border rounded mt-2 mb-3">
+                <canvas id="chartRequestVci"></canvas>
+                <p class="text-center">Month</p>
+            </div> --}}
+
         </div>
 
     </div>

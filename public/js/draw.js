@@ -6,17 +6,19 @@ var drawControl = new L.Control.Draw({
     draw: {
         polygon: {
             shapeOptions: {
-                color: 'purple' //polygons being drawn will be purple color
+                color: 'green', // Warna border polygon
+                fillColor: 'rgba(0, 0, 0, 0.5)' // Warna fill polygon (biru transparan)
             },
             allowIntersection: false,
             drawError: {
                 color: 'orange',
                 timeout: 1000
             },
-            showArea: true, //the area of the polygon will be displayed as it is drawn.
+            showArea: true,
             metric: false,
             repeatMode: true
-        },
+        }
+        ,
         polyline: false,
         circlemarker: false, //circlemarker type has been disabled.
         rect: false,
@@ -44,11 +46,14 @@ map.on('draw:created', function (e) {
 
         // Add coordinates and altitude to respective HTML elements
         $('#geometry').val("[" + lng + "," + lat + "]");
-        $('#type').val('Point');
+        $('#type').val('point');
     }
 
     if (type == 'polygon') {
-        $('#geometry').val(JSON.stringify(layer.toGeoJSON()));
+        var coordinates = layer.toGeoJSON().geometry.coordinates;
+        $('#geometry').val(JSON.stringify(coordinates));
+
+        $('#type').val('polygon');
 
         // Calculate and display the area
         var area = turf.area(layer.toGeoJSON());
@@ -64,18 +69,21 @@ map.on('draw:edited', function (e) {
         var type = layer instanceof L.Marker ? 'marker' : 'polygon'; // Determine the edited shape type
 
         if (type === 'marker') {
-            // Ambil koordinat dari titik yang baru digambar
+            // Extract coordinates and altitude from the layer options
             var coordinates = layer.getLatLng();
             var lat = coordinates.lat;
             var lng = coordinates.lng;
 
-            // Tambahkan koordinat
-            // $('#latitude').val(lat);
-            // $('#longitude').val(lng);
+            // Add coordinates and altitude to respective HTML elements
+            $('#geometry').val("[" + lng + "," + lat + "]");
+            $('#type').val('Point');
         }
 
         if (type == 'polygon') {
-            $('#geometry').val(JSON.stringify(layer.toGeoJSON()));
+            var coordinates = layer.toGeoJSON().geometry.coordinates;
+            $('#geometry').val(JSON.stringify(coordinates));
+
+            $('#type').val('polygon');
 
             // Calculate and display the area
             var area = turf.area(layer.toGeoJSON());
@@ -88,16 +96,7 @@ map.on('draw:edited', function (e) {
 map.on('draw:deleted', function (e) {
     var deletedLayers = e.layers;
     deletedLayers.eachLayer(function (layer) {
-
-        // Tambahkan koordinat
-        // $('#latitude').val('');
-        // $('#longitude').val('');
-
-        // Update data geojson yang ada di elemen HTML #geom
         $('#geometry').val('');
-
-        // Reset nilai area
-        document.getElementById('area').value = "";
-
+        $('#type').val('');
     });
 });

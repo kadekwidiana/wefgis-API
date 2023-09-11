@@ -95,11 +95,10 @@ $(document).ready(function () {
 
                 var popupContent = '<div class="popup-container">';
                 popupContent += '<div class="popup-header">Class: ' + data[index].class + '</div>';
-                popupContent += '<div class="popup-coordinates">Coordinates: ' + data[index].latitude + ',' + data[index].longitude + '</div>';
+                popupContent += '<div class="popup-coordinates">Coordinate: ' + data[index].latitude + ',' + data[index].longitude + '</div>';
                 popupContent += '<div class="popup-address mb-2">Address: <span id="address-placeholder">Loading...</span></div>';
                 popupContent += '<div class="popup-address mb-2"><a style="text-decoration: none;" href="http://maps.google.com/maps?q=&layer=c&cbll=' + data[index].latitude + ',' + data[index].longitude + '&cbp=11,0,0,0" target="_blank"><b>Street View</b></a></div>';
-                popupContent += '<div id="loading-overlay"><div class="loading-spinner"></div></div>';
-                popupContent += '<div id="failed">Data not found</div>';
+
 
                 // Add Bootstrap tabs
                 popupContent += '<ul class="nav nav-tabs justify-content-center" role="tablist">';
@@ -108,10 +107,11 @@ $(document).ready(function () {
                 popupContent += '</ul>';
 
                 popupContent += '<div class="tab-content">';
-                popupContent += '<div role="tabpanel" class="tab-pane active" id="chart1-' + data[index].id + '"><canvas id="myChart1' + data[index].id + '" width="600" height="400"></canvas></div>';
-                popupContent += '<div role="tabpanel" class="tab-pane" id="chart2-' + data[index].id + '"><canvas id="myChart2' + data[index].id + '" width="600" height="400"></canvas></div>';
+                // popupContent += '<div id="loading1"><div class="loading-spinner"></div></div>';
+                // popupContent += '<div id="failed1">Data not found</div>';
+                popupContent += '<div role="tabpanel" class="tab-pane active" id="chart1-' + data[index].id + '"><div id="failed1">Data not found</div><div id="loading1"><i class="fa-solid fa-spinner fa-spin-pulse fa-2xl"></i></div><canvas id="myChart1' + data[index].id + '" width="600" height="400"></canvas></div>';
+                popupContent += '<div role="tabpanel" class="tab-pane" id="chart2-' + data[index].id + '"><div id="failed2">Data not found</div><div id="loading2" class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-spinner fa-spin-pulse fa-2xl"></i></div><canvas id="myChart2' + data[index].id + '" width="600" height="400"></canvas></div>';
                 popupContent += '</div>';
-
                 popupContent += '</div>';
                 var popup = L.popup().setContent(popupContent);
 
@@ -124,8 +124,9 @@ $(document).ready(function () {
                         var address = data.display_name;
                         addressPlaceholder.textContent = address;
                     });
-                    $('#loading-overlay').show();
-                    $('#failed').hide();
+
+                    $('#failed1').hide();
+                    $('#failed2').hide();
 
                     // Mendapatkan CSRF token dari meta tag HTML
                     var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -147,7 +148,12 @@ $(document).ready(function () {
                             data: JSON.stringify(postData),
                             contentType: "application/json",
                             success: function (response) {
-                                $('#loading-overlay').hide();
+                                if (responseKey === 'precipitation') {
+                                    $('#loading1').addClass('d-none');
+                                } else if (responseKey === 'VCI') {
+                                    $('#loading2').addClass('d-none');
+                                }
+
                                 var monthlyData = response.data;
                                 var dataKey = responseKey;
 
@@ -236,8 +242,13 @@ $(document).ready(function () {
                             },
                             error: function (error) {
                                 console.log("Fail:", error);
-                                $('#loading-overlay').hide();
-                                $('#failed').show();
+                                if (responseKey === 'precipitation') {
+                                    $('#loading1').addClass('d-none');
+                                    $('#failed1').show();
+                                } else if (responseKey === 'VCI') {
+                                    $('#loading2').addClass('d-none');
+                                    $('#failed2').show();
+                                }
                             }
                         });
                     }

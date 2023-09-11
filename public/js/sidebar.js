@@ -246,7 +246,7 @@ var customControlAnalisisPoint = L.Control.extend({
     onAdd: function () {
         var container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-analisis-point');
         var button = L.DomUtil.create('button', 'button-control-analisis-point', container);
-        var icon = L.DomUtil.create('i', 'fa-solid fa-info');
+        var icon = L.DomUtil.create('i', 'fa-solid fa-magnifying-glass-chart');
         button.appendChild(icon);
 
         container.addEventListener("click", function () {

@@ -193,7 +193,7 @@ const vhi = L.layerGroup();
 
 
 $(document).ready(function () {
-    $("#getInfoByPoint").click(function () {
+    $("#reqInfo").click(function () {
         // Mengambil nilai dari input geometry dan type
         var geometryValue = $("#geometry").val();
         var typeValue = $('#type').val();
@@ -214,22 +214,159 @@ $(document).ready(function () {
         postData._token = csrfToken;
 
         // URL tujuan
-        var url = "/water-preception";
+        // var url = "/vci";
 
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: JSON.stringify(postData),
-            contentType: "application/json",
-            success: function (response) {
-                console.log("Success:", response);
-            },
-            error: function (error) {
-                console.log("Fail:", error);
-            }
-        });
+        // $.ajax({
+        //     type: "POST",
+        //     url: url,
+        //     data: JSON.stringify(postData),
+        //     contentType: "application/json",
+        //     success: function (response) {
+        //         console.log("Success:", response);
+        //         var layerMaps = response.map.VCI;
+        //         console.log(layerMaps);
+
+        //         // Menambahkan tile layer ke peta dari URL Tile
+        //         L.tileLayer(layerMaps).addTo(map);
+        //     },
+        //     error: function (error) {
+        //         console.log("Fail:", error);
+        //     }
+        // });
+
+        // Fungsi untuk mengambil data dan membuat chart
+        function fetchDataAndCreateChart(url, responseKey, chartTitle, canvasId) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify(postData),
+                contentType: "application/json",
+                success: function (response) {
+
+                    console.log(response.map.VCI)
+
+                    // Menambahkan tile layer ke peta dari URL Tile
+                    const layerPreceptation = L.tileLayer(response.map.Precipitation);
+                    const layerVCI = L.tileLayer(response.map.VCI);
+
+                    // Fungsi event listener untuk checkbox
+                    function checkboxEventListener(checkboxId, layer) {
+                        document.getElementById(checkboxId).addEventListener('change', function () {
+                            if (this.checked) {
+                                layer.addTo(map); // Menampilkan lapisan marker
+                            } else {
+                                layer.removeFrom(map); // Menghilangkan lapisan marker
+                            }
+                        });
+                    }
+
+                    checkboxEventListener('precipitation_id', layerPreceptation);
+                    checkboxEventListener('vci_id', layerVCI);
+
+                    var monthlyData = response.data;
+                    var dataKey = responseKey;
+
+                    var dataArray = [];
+                    for (var i = 0; i < monthlyData.length; i++) {
+                        var value = monthlyData[i][dataKey];
+                        dataArray.push(value);
+                    }
+
+                    var yearlyData = {};
+                    for (var i = 0; i < monthlyData.length; i++) {
+                        var year = monthlyData[i].Year || monthlyData[i].year;
+                        var value = monthlyData[i][dataKey];
+
+                        if (!yearlyData.hasOwnProperty(year)) {
+                            yearlyData[year] = [];
+                        }
+
+                        yearlyData[year].push(value);
+                    }
+
+                    // Function to generate a random color
+                    function getRandomColor() {
+                        var letters = '0123456789ABCDEF';
+                        var color = '#';
+                        for (var i = 0; i < 6; i++) {
+                            color += letters[Math.floor(Math.random() * 16)];
+                        }
+                        return color;
+                    }
+
+                    var datasets = [];
+                    for (var year in yearlyData) {
+                        if (yearlyData.hasOwnProperty(year)) {
+                            var color = getRandomColor();
+                            datasets.push({
+                                label: year,
+                                data: yearlyData[year],
+                                backgroundColor: color,
+                                borderColor: color,
+                                borderWidth: 1,
+                            });
+                        }
+                    }
+
+                    // var markerIndex = data[index].id;
+
+                    var ctx = document.getElementById(canvasId).getContext('2d');
+                    var chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                            datasets: datasets,
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                x: {
+                                    beginAtZero: true,
+                                    maxTicksLimit: 12,
+                                },
+                                y: {
+                                    min: 0,
+                                    max: Math.max(...dataArray) + 100,
+                                    beginAtZero: true,
+                                }
+                            },
+                            plugins: {
+                                title: {
+                                    display: true,
+                                    text: chartTitle,
+                                    position: 'top'
+                                },
+                                legend: {
+                                    display: true,
+                                    position: 'right',
+                                    labels: {
+                                        usePointStyle: true,
+                                        pointStyle: 'circle',
+                                        pointRadius: 8,
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (error) {
+                    console.log("Fail:", error);
+                    // if (responseKey === 'precipitation') {
+                    //     $('#loading1').addClass('d-none');
+                    //     $('#failed1').show();
+                    // } else if (responseKey === 'VCI') {
+                    //     $('#loading2').addClass('d-none');
+                    //     $('#failed2').show();
+                    // }
+                }
+            });
+        }
+        // Pemanggilan fungsi untuk endpoint
+        fetchDataAndCreateChart("/water-preception", "precipitation", "Cumulative Rainfall (mm)", "chartRequestPrecipitation");
+        fetchDataAndCreateChart("/vci", "VCI", "VCI", "chartRequestVci");
     });
 });
+
 
 // LAYER GEOSERVER
 // Fungsi untuk menambahkan WMS layer dengan konfigurasi yang diberikan
