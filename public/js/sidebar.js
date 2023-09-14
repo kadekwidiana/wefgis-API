@@ -212,30 +212,30 @@ function closeAnalisisPointSidebar() {
 
 
 // Control button analisis
-var customControlAnalisis = L.Control.extend({
-    options: {
-        position: 'topleft'
-    },
+// var customControlAnalisis = L.Control.extend({
+//     options: {
+//         position: 'topleft'
+//     },
 
-    onAdd: function () {
-        var container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-analisis');
-        var button = L.DomUtil.create('button', 'button-control-analisis', container);
-        var icon = L.DomUtil.create('i', 'fa-solid fa-info fa-xl');
-        button.appendChild(icon);
+//     onAdd: function () {
+//         var container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-analisis');
+//         var button = L.DomUtil.create('button', 'button-control-analisis', container);
+//         var icon = L.DomUtil.create('i', 'fa-solid fa-info fa-xl');
+//         button.appendChild(icon);
 
-        container.addEventListener("click", function () {
-            closeAnalisisPointSidebar();
-            document.getElementById("sidebar-analisis").classList.toggle("active");
-            adjustPositionControlSidebarLeft('.sidebar-analisis.active'); // Call the function to adjust control positions
-            var layerButton = document.querySelector('.container-control-analisis button');
-            layerButton.classList.toggle("active"); // Toggle active class on the button
-        });
+//         container.addEventListener("click", function () {
+//             closeAnalisisPointSidebar();
+//             document.getElementById("sidebar-analisis").classList.toggle("active");
+//             adjustPositionControlSidebarLeft('.sidebar-analisis.active'); // Call the function to adjust control positions
+//             var layerButton = document.querySelector('.container-control-analisis button');
+//             layerButton.classList.toggle("active"); // Toggle active class on the button
+//         });
 
-        return container;
-    }
-});
-// Add the custom button to the map
-map.addControl(new customControlAnalisis());
+//         return container;
+//     }
+// });
+// // Add the custom button to the map
+// map.addControl(new customControlAnalisis());
 
 // Control button analisis
 var customControlAnalisisPoint = L.Control.extend({

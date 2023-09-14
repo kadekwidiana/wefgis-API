@@ -10,22 +10,21 @@ function createCustomIcon(iconUrl) {
 }
 
 // Definisikan ikon-ikon dengan menggunakan fungsi createCustomIcon
-var baresoilIcon = createCustomIcon('assets/icons/icon-marker/baresoil.png');
-var cassavaIcon = createCustomIcon('assets/icons/icon-marker/cassava.png');
-var cropIcon = createCustomIcon('assets/icons/icon-marker/corn.png');
-var eucalyptusIcon = createCustomIcon('assets/icons/icon-marker/eucalyptus.png');
-var forestIcon = createCustomIcon('assets/icons/icon-marker/forest.png');
-var grasslandIcon = createCustomIcon('assets/icons/icon-marker/grassland.png');
-var paddyIcon = createCustomIcon('assets/icons/icon-marker/paddy.png');
-var palmIcon = createCustomIcon('assets/icons/icon-marker/palm.png');
-var rubberIcon = createCustomIcon('assets/icons/icon-marker/rubber.png');
-var settlementIcon = createCustomIcon('assets/icons/icon-marker/gedung.png');
-var sugarcaneIcon = createCustomIcon('assets/icons/icon-marker/sugarcan.png');
-var waterIcon = createCustomIcon('assets/icons/icon-marker/water.png');
-var cornIcon = createCustomIcon('assets/icons/icon-marker/corn.png');
+const baresoilIcon = createCustomIcon('assets/icons/icon-marker/baresoil.png');
+const cassavaIcon = createCustomIcon('assets/icons/icon-marker/cassava.png');
+const cropIcon = createCustomIcon('assets/icons/icon-marker/corn.png');
+const eucalyptusIcon = createCustomIcon('assets/icons/icon-marker/eucalyptus.png');
+const forestIcon = createCustomIcon('assets/icons/icon-marker/forest.png');
+const grasslandIcon = createCustomIcon('assets/icons/icon-marker/grassland.png');
+const paddyIcon = createCustomIcon('assets/icons/icon-marker/paddy.png');
+const palmIcon = createCustomIcon('assets/icons/icon-marker/palm.png');
+const rubberIcon = createCustomIcon('assets/icons/icon-marker/rubber.png');
+const settlementIcon = createCustomIcon('assets/icons/icon-marker/gedung.png');
+const sugarcaneIcon = createCustomIcon('assets/icons/icon-marker/sugarcan.png');
+const waterIcon = createCustomIcon('assets/icons/icon-marker/water.png');
+const cornIcon = createCustomIcon('assets/icons/icon-marker/corn.png');
 
 
-// const baresoil = L.layerGroup();
 const cassava = L.layerGroup();
 const baresoil = L.layerGroup();
 const crop = L.layerGroup();
@@ -66,9 +65,9 @@ checkboxEventListener('point_water', water);
 
 // get data by mysql
 $(document).ready(function () {
-    $.getJSON('/pointCrop/json', function (data) {
+    $.getJSON('/pointCrop', function (data) {
         // Membuat objek untuk memetakan kelas dengan ikon dan grupnya
-        var classToIcon = {
+        const classToIcon = {
             'Baresoil': { icon: baresoilIcon, group: baresoil },
             'Cassava': { icon: cassavaIcon, group: cassava },
             'Crop': { icon: cropIcon, group: crop },
@@ -186,9 +185,14 @@ $(document).ready(function () {
                                 }
 
                                 var datasets = [];
+                                var colorMap = {
+                                    '2020': 'red',
+                                    '2021': 'green',
+                                    '2022': 'blue'
+                                };
                                 for (var year in yearlyData) {
                                     if (yearlyData.hasOwnProperty(year)) {
-                                        var color = getRandomColor();
+                                        var color = colorMap[year];
                                         datasets.push({
                                             label: year,
                                             data: yearlyData[year],
@@ -202,7 +206,7 @@ $(document).ready(function () {
                                 var markerIndex = data[index].id;
 
                                 var ctx = document.getElementById(canvasId + markerIndex).getContext('2d');
-                                var chart = new Chart(ctx, {
+                                new Chart(ctx, {
                                     type: 'line',
                                     data: {
                                         labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -253,7 +257,7 @@ $(document).ready(function () {
                         });
                     }
                     // Pemanggilan fungsi untuk endpoint
-                    fetchDataAndCreateChart("/water-preception", "precipitation", "Cumulative Rainfall (mm)", "myChart1");
+                    fetchDataAndCreateChart("/precipitation", "precipitation", "Cumulative Rainfall (mm)", "myChart1");
                     fetchDataAndCreateChart("/vci", "VCI", "VCI", "myChart2");
                 });
             }

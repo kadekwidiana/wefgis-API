@@ -4,16 +4,6 @@ var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.
     attribution: atributeName,
 });
 
-
-// Initialize the map with the default basemap
-var map = L.map('map', {
-    layers: [openStreetMap],
-    center: [13.666790631230649, 101.35322935835381],
-    zoom: 10,
-    minZoom: 5,
-    zoomControl: false
-});
-
 var googleStreetMap = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
     attribution: atributeName,
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
@@ -50,6 +40,18 @@ var esriWorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/res
 var googleEarth = L.tileLayer('https://storage.googleapis.com/global-surface-water/tiles2021/transitions/{z}/{x}/{y}.png', {
     attribution: '© <a href="https://www.thunderforest.com/maps/landscape/">Thunderforest</a>',
 });
+
+var _zoom = 10;
+
+// Initialize the map with the default basemap
+var map = L.map('map', {
+    layers: [googleHibridMap],
+    center: [13.666790631230649, 101.35322935835381],
+    zoom: _zoom,
+    minZoom: 5,
+    zoomControl: false
+});
+
 
 //basemap Google Maps Label
 var googleMapsLabel = L.tileLayer('https://mt1.google.com/vt/lyrs=h&x={x}&y={y}&z={z}');
@@ -191,6 +193,14 @@ const vhi = L.layerGroup();
 // document.getElementById('vci').addEventListener('change', toggleTileLayer('vci'));
 // document.getElementById('vhi').addEventListener('change', toggleTileLayer('vhi'));
 
+// Fungsi untuk menghancurkan grafik berdasarkan ID
+function destroyChart(chartId) {
+    var existingChart = Chart.getChart(chartId);
+    if (existingChart) {
+        existingChart.destroy();
+    }
+}
+
 
 $(document).ready(function () {
     $("#reqInfo").click(function () {
@@ -213,55 +223,69 @@ $(document).ready(function () {
 
         postData._token = csrfToken;
 
-        // URL tujuan
-        // var url = "/vci";
-
-        // $.ajax({
-        //     type: "POST",
-        //     url: url,
-        //     data: JSON.stringify(postData),
-        //     contentType: "application/json",
-        //     success: function (response) {
-        //         console.log("Success:", response);
-        //         var layerMaps = response.map.VCI;
-        //         console.log(layerMaps);
-
-        //         // Menambahkan tile layer ke peta dari URL Tile
-        //         L.tileLayer(layerMaps).addTo(map);
-        //     },
-        //     error: function (error) {
-        //         console.log("Fail:", error);
-        //     }
-        // });
+        $('#loadingPrecipitation, #loadingVCI, #loadingEVI, #loadingMSI').removeClass('d-none');
+        $('#grafikPrecipitation, #grafikVCI, #grafikEVI, #grafikMSI').addClass('d-none');
+        $('#getInfo').addClass('d-none');
+        $('#loadInfo').removeClass('d-none');
 
         // Fungsi untuk mengambil data dan membuat chart
-        function fetchDataAndCreateChart(url, responseKey, chartTitle, canvasId) {
+        function fetchDataAndCreateChart(url, responseKey, chartTitle, canvasId, layerMapGEE, idCheckBox) {
             $.ajax({
                 type: "POST",
                 url: url,
                 data: JSON.stringify(postData),
                 contentType: "application/json",
                 success: function (response) {
+                    switch (responseKey) {
+                        case 'precipitation':
+                            $('#loadingPrecipitation').addClass('d-none');
+                            $('#grafikPrecipitation, #precipitation_id').removeClass('d-none');
+                            break;
+                        case 'VCI':
+                            $('#loadingVCI').addClass('d-none');
+                            $('#grafikVCI, #vci_id').removeClass('d-none');
+                            break;
+                        case 'EVI':
+                            $('#loadingEVI').addClass('d-none');
+                            $('#grafikEVI, #evi_id').removeClass('d-none');
+                            break;
+                        case 'MSI':
+                            $('#loadingMSI').addClass('d-none');
+                            $('#grafikMSI, #msi_id').removeClass('d-none');
+                            $('#getInfo').removeClass('d-none');
+                            $('#loadInfo').addClass('d-none');
+                            break;
+                        default:
+                            break;
+                    }
 
-                    console.log(response.map.VCI)
 
-                    // Menambahkan tile layer ke peta dari URL Tile
-                    const layerPreceptation = L.tileLayer(response.map.Precipitation);
-                    const layerVCI = L.tileLayer(response.map.VCI);
-
-                    // Fungsi event listener untuk checkbox
-                    function checkboxEventListener(checkboxId, layer) {
-                        document.getElementById(checkboxId).addEventListener('change', function () {
+                    destroyChart(canvasId);
+                    console.log(response.map[layerMapGEE]);
+                    if (responseKey === 'VCI') {
+                        var vciLayer = L.tileLayer(response.map.VCI);
+                        if ($('#' + idCheckBox).is(':checked')) {
+                            vciLayer.addTo(map); // Menampilkan lapisan VCI jika checkbox sudah dicentang
+                        }
+                        $('#' + idCheckBox).on('change', function () {
                             if (this.checked) {
-                                layer.addTo(map); // Menampilkan lapisan marker
+                                vciLayer.addTo(map); // Menampilkan lapisan VCI saat checkbox dicentang
                             } else {
-                                layer.removeFrom(map); // Menghilangkan lapisan marker
+                                vciLayer.removeFrom(map); // Menghilangkan lapisan VCI saat checkbox dicentang
                             }
                         });
                     }
 
-                    checkboxEventListener('precipitation_id', layerPreceptation);
-                    checkboxEventListener('vci_id', layerVCI);
+                    var layerMapFromGEE = L.tileLayer(response.map[layerMapGEE]);
+
+
+                    $('#' + idCheckBox).on('change', function () {
+                        if (this.checked) {
+                            layerMapFromGEE.addTo(map); // Menampilkan lapisan layer
+                        } else {
+                            layerMapFromGEE.removeFrom(map); // Menghilangkan lapisan layer
+                        }
+                    });
 
                     var monthlyData = response.data;
                     var dataKey = responseKey;
@@ -295,9 +319,16 @@ $(document).ready(function () {
                     }
 
                     var datasets = [];
+                    var colorMap = {
+                        '2018': 'yellow',
+                        '2019': 'orange',
+                        '2020': 'red',
+                        '2021': 'green',
+                        '2022': 'blue'
+                    };
                     for (var year in yearlyData) {
                         if (yearlyData.hasOwnProperty(year)) {
-                            var color = getRandomColor();
+                            var color = colorMap[year];
                             datasets.push({
                                 label: year,
                                 data: yearlyData[year],
@@ -325,8 +356,8 @@ $(document).ready(function () {
                                     maxTicksLimit: 12,
                                 },
                                 y: {
-                                    min: 0,
-                                    max: Math.max(...dataArray) + 100,
+                                    min: (responseKey === 'EVI' || responseKey === 'MSI') ? Math.min(...dataArray) - 1 : Math.min(...dataArray) - 10,
+                                    max: (responseKey === 'EVI' || responseKey === 'MSI') ? Math.max(...dataArray) + 1 : Math.max(...dataArray) + 50,
                                     beginAtZero: true,
                                 }
                             },
@@ -351,19 +382,36 @@ $(document).ready(function () {
                 },
                 error: function (error) {
                     console.log("Fail:", error);
-                    // if (responseKey === 'precipitation') {
-                    //     $('#loading1').addClass('d-none');
-                    //     $('#failed1').show();
-                    // } else if (responseKey === 'VCI') {
-                    //     $('#loading2').addClass('d-none');
-                    //     $('#failed2').show();
-                    // }
+                    $('#getInfo').removeClass('d-none');
+                    $('#loadInfo').addClass('d-none');
+                    switch (responseKey) {
+                        case 'precipitation':
+                            $('#loadingPrecipitation').addClass('d-none');
+                            $('#failedGetPrecipitation').removeClass('d-none');
+                            break;
+                        case 'VCI':
+                            $('#loadingVCI').addClass('d-none');
+                            $('#failedGetVCI').removeClass('d-none');
+                            break;
+                        case 'EVI':
+                            $('#loadingEVI').addClass('d-none');
+                            $('#failedGetEVI').removeClass('d-none');
+                            break;
+                        case 'MSI':
+                            $('#loadingMSI').addClass('d-none');
+                            $('#failedGetMSI').removeClass('d-none');
+                            break;
+                        default:
+                            break;
+                    }
                 }
             });
         }
         // Pemanggilan fungsi untuk endpoint
-        fetchDataAndCreateChart("/water-preception", "precipitation", "Cumulative Rainfall (mm)", "chartRequestPrecipitation");
-        fetchDataAndCreateChart("/vci", "VCI", "VCI", "chartRequestVci");
+        fetchDataAndCreateChart("/precipitation", "precipitation", "Cumulative Rainfall (mm)", "chartRequestPrecipitation", "Precipitation", "precipitation_id");
+        fetchDataAndCreateChart("/vci", "VCI", "VCI", "chartRequestVci", "VCI", "vci_id");
+        fetchDataAndCreateChart("/evi", "EVI", "EVI", "chartRequestEvi", "EVI", "evi_id");
+        fetchDataAndCreateChart("/evi", "MSI", "MSI", "chartRequestMsi", "MSI", "msi_id");
     });
 });
 

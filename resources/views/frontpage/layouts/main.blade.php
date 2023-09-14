@@ -59,13 +59,13 @@
 <!-- MAIN JS -->
 <script src="{{ asset('js/main.js') }}"></script>
 <!-- CHART JS -->
-<script src="{{ asset('js/chart.js') }}"></script>
+{{-- <script src="{{ asset('js/chart.js') }}"></script> --}}
 <!-- CHART-POPUP JS -->
 <script src="{{ asset('js/chart-popup.js') }}"></script>
 <!-- sidebar js -->
 <script src="{{ asset('js/sidebar.js') }}"></script>
 {{-- GEE-WATER js --}}
-{{-- <script src="{{ asset('js/gee-water.js') }}"></script> --}}
+<script src="{{ asset('js/gee-water.js') }}"></script>
 
 <!-- leaflet js draw -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>

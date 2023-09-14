@@ -27,18 +27,12 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
+// view frontpage
+Route::get('/', [CropChacoengsaoController::class, 'index'])->name('index');
 
-Route::get('/', function () {
-    return view('frontpage.maps');
-});
-
-Route::get('/pointCrop/json', [CropChacoengsaoController::class, 'pointCropJson'])->name('json-crop');
-Route::get('/earthData', [CropChacoengsaoController::class, 'dataEarth'])->name('json-earth');
-
+Route::get('/pointCrop', [CropChacoengsaoController::class, 'pointCrop'])->name('json-crop');
 // GEE
-Route::get('/water-occurrences', [CropChacoengsaoController::class, 'getWaterOccurrences']);
-// VHI
-Route::post('/vhi-data', [CropChacoengsaoController::class, 'getVhiData']);
-
-Route::post('/water-preception',[CropChacoengsaoController::class, 'preception'])->name('preception');
+Route::get('/wateroccurence', [CropChacoengsaoController::class, 'waterOccurrence'])->name('waterOccurrence');
+Route::post('/precipitation',[CropChacoengsaoController::class, 'precipitation'])->name('precipitation');
 Route::post('/vci',[CropChacoengsaoController::class, 'vci'])->name('vci');
+Route::post('/evi',[CropChacoengsaoController::class, 'evi'])->name('evi');
