@@ -1,7 +1,7 @@
 // Layer draw
-var drawnItems = new L.FeatureGroup();
+const drawnItems = new L.FeatureGroup();
 map.addLayer(drawnItems);
-var drawControl = new L.Control.Draw({
+const drawControl = new L.Control.Draw({
     position: 'topleft',
     draw: {
         polygon: {
@@ -34,15 +34,15 @@ map.addControl(drawControl);
 
 // create data geojson
 map.on('draw:created', function (e) {
-    var type = e.layerType,
+    const type = e.layerType,
         layer = e.layer;
     drawnItems.addLayer(layer);
 
     if (type === 'marker') {
         // Extract coordinates and altitude from the layer options
-        var coordinates = layer.getLatLng();
-        var lat = coordinates.lat;
-        var lng = coordinates.lng;
+        const coordinates = layer.getLatLng();
+        const lat = coordinates.lat;
+        const lng = coordinates.lng;
 
         // Add coordinates and altitude to respective HTML elements
         $('#geometry').val("[" + lng + "," + lat + "]");
@@ -50,13 +50,13 @@ map.on('draw:created', function (e) {
     }
 
     if (type == 'polygon') {
-        var coordinates = layer.toGeoJSON().geometry.coordinates;
+        const coordinates = layer.toGeoJSON().geometry.coordinates;
         $('#geometry').val(JSON.stringify(coordinates));
 
         $('#type').val('polygon');
 
         // Calculate and display the area
-        var area = turf.area(layer.toGeoJSON());
+        const area = turf.area(layer.toGeoJSON());
         document.getElementById('area').value = area.toFixed(2);
     }
 
@@ -64,15 +64,15 @@ map.on('draw:created', function (e) {
 
 // edit data geojson
 map.on('draw:edited', function (e) {
-    var editedLayers = e.layers;
+    const editedLayers = e.layers;
     editedLayers.eachLayer(function (layer) {
-        var type = layer instanceof L.Marker ? 'marker' : 'polygon'; // Determine the edited shape type
+        const type = layer instanceof L.Marker ? 'marker' : 'polygon'; // Determine the edited shape type
 
         if (type === 'marker') {
             // Extract coordinates and altitude from the layer options
-            var coordinates = layer.getLatLng();
-            var lat = coordinates.lat;
-            var lng = coordinates.lng;
+            const coordinates = layer.getLatLng();
+            const lat = coordinates.lat;
+            const lng = coordinates.lng;
 
             // Add coordinates and altitude to respective HTML elements
             $('#geometry').val("[" + lng + "," + lat + "]");
@@ -80,13 +80,13 @@ map.on('draw:edited', function (e) {
         }
 
         if (type == 'polygon') {
-            var coordinates = layer.toGeoJSON().geometry.coordinates;
+            const coordinates = layer.toGeoJSON().geometry.coordinates;
             $('#geometry').val(JSON.stringify(coordinates));
 
             $('#type').val('polygon');
 
             // Calculate and display the area
-            var area = turf.area(layer.toGeoJSON());
+            const area = turf.area(layer.toGeoJSON());
             document.getElementById('area').value = area.toFixed(2);
         }
     });
@@ -94,7 +94,7 @@ map.on('draw:edited', function (e) {
 
 // delete data geojson
 map.on('draw:deleted', function (e) {
-    var deletedLayers = e.layers;
+    const deletedLayers = e.layers;
     deletedLayers.eachLayer(function (layer) {
         $('#geometry').val('');
         $('#type').val('');

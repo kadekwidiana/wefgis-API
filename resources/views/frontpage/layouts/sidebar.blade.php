@@ -5,8 +5,8 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-check">
-                <input class="form-check-input itemCheckbox border border-secondary" type="checkbox" value=""
-                    id="googleMapsLabel" data-layer="markerGroup1">
+                <input class="form-check-input border border-secondary" type="checkbox" value="" id="googleMapsLabel"
+                    data-layer="google_label">
                 <label class="form-check-label" for="googleMapsLabel">
                     Label
                 </label>
@@ -20,7 +20,7 @@
                 <label>
                     <img src="assets/icons/icon-basemap/openstreetmap_blackandwhite.png" alt="OpenStreetMap"
                         class="img-fluid custom-image-basemap">
-                    <input class="form-check-input" type="radio" name="basemap" value="openStreetMap" checked>
+                    <input class="form-check-input" type="radio" name="basemap" value="openStreetMap">
                     OSM
                 </label>
                 <label>
@@ -39,13 +39,33 @@
                     <img src="assets/icons/icon-basemap/here_satelliteday.png" alt="Satellite "
                         class="img-fluid custom-image-basemap">
                     <input class="form-check-input" type="radio" name="basemap" value="satelliteMap">
-                    Satelite
+                    G-Satelite
                 </label>
                 <label>
                     <img src="assets/icons/icon-basemap/google-hibrid.png" alt="Satellite "
                         class="img-fluid custom-image-basemap">
-                    <input class="form-check-input" type="radio" name="basemap" value="googleHibridMap">
+                    <input class="form-check-input" type="radio" name="basemap" value="googleHibridMap" checked>
                     Hibrid
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="basemap-options">
+                <label>
+                    <img src="assets/icons/icon-basemap/google-terrain.png" alt="Terain "
+                        class="img-fluid custom-image-basemap">
+                    <input class="form-check-input" type="radio" name="basemap" value="googleTerrain">
+                    Terrain
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="basemap-options">
+                <label>
+                    <img src="assets/icons/icon-basemap/google-traffic.png" alt="Traffic "
+                        class="img-fluid custom-image-basemap">
+                    <input class="form-check-input" type="radio" name="basemap" value="googleTraffic">
+                    Traffic
                 </label>
             </div>
         </div>
@@ -70,12 +90,12 @@
         </div>
 
         <div class="col-md-6">
-            <div class="basemap-options">
+            <div class="basemap-options mb-4">
                 <label>
                     <img src="assets/icons/icon-basemap/esri-satelite.png" alt="Esri "
                         class="img-fluid custom-image-basemap">
                     <input class="form-check-input" type="radio" name="basemap" value="esriSatelite">
-                    Esri Satelite
+                    E-Satelite
                 </label>
                 <label>
                     <img src="assets/icons/icon-basemap/google-earth.png" alt="Thunderforest "
@@ -228,19 +248,19 @@
 
         <div class="border rounded mt-2">
             <!-- <div class="border-top"></div> -->
-            <p class="bg-secondary p-2 m-0 rounded-top fw-bold">GEE</p>
+            <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Google Earth Engine</p>
             <div class="p-2">
                 <div class="form-check">
                     <input name="water" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="water" data-layer="water">
+                        value="" id="water" data-layer="water" checked>
                     <label class="form-check-label" for="water">
                         Chachoengsao
                     </label>
                 </div>
                 <div class="form-check">
                     <input name="change_intensity" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="change_intensity" data-layer="change_intensity">
-                    <label class="form-check-label" for="change_intensity">
+                        value="" id="change_intensity" data-layer="change_intensity" checked>
+                    <label class="form-check-label" for="water">
                         Change Intensity
                     </label>
                 </div>
@@ -279,7 +299,7 @@
             <!-- Tambahkan item lain di sini -->
         </div>
         <!-- GEOSERVER -->
-        <div class="border rounded mt-2 d-none">
+        <div class="border rounded mt-2">
             <!-- <div class="border-top"></div> -->
             <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Geo Server</p>
             <div class="p-2">
@@ -321,6 +341,49 @@
             </div>
 
             <!-- Tambahkan item lain di sini -->
+        </div>
+        {{-- PHICHIT PRONVINCE --}}
+        <div class="border rounded mt-2">
+            <!-- <div class="border-top"></div> -->
+            <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Phichit Pronvince</p>
+            <div class="p-2">
+                <div class="form-check">
+                    <input name="admin_phichit" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="admin_phichit" data-layer="admin_phichit">
+                    <label class="form-check-label" for="admin_phichit">
+                        Admin Phichit
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input name="agriculture_phichit" class="form-check-input border border-secondary"
+                        type="checkbox" value="" id="agriculture_phichit" data-layer="agriculture_phichit">
+                    <label class="form-check-label" for="agriculture_phichit">
+                        Agriculture
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input name="change_line_phichit" class="form-check-input border border-secondary"
+                        type="checkbox" value="" id="change_line_phichit" data-layer="change_line_phichit">
+                    <label class="form-check-label" for="change_line_phichit">
+                        Change Line
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input name="MS1_phichit" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="MS1_phichit" data-layer="MS1_phichit">
+                    <label class="form-check-label" for="MS1_phichit">
+                        MS 1
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input name="rail_phichit" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="rail_phichit" data-layer="rail_phichit">
+                    <label class="form-check-label" for="rail_phichit">
+                        Rail
+                    </label>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -486,11 +549,12 @@
             <form action="" method="post" id="datForm">
                 <div class="form-group mt-2">
                     <label for="geometry">Geometry</label>
-                    <textarea class="form-control" id="geometry" name="geometry" placeholder="geojson"></textarea>
+                    <textarea class="form-control" id="geometry" name="geometry" placeholder="Geojson"></textarea>
                 </div>
                 <div class="form-group mt-2">
                     <label for="type">Type</label>
-                    <input class="form-control" id="type" name="type" placeholder="Type" required>
+                    <input class="form-control" id="type" name="type" placeholder="Automatic by draw"
+                        readonly>
                 </div>
 
                 <div class="row mb-2">

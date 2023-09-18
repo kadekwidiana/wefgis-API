@@ -41,7 +41,9 @@ const layersConfig = {
 
 // Fungsi untuk membuat tile layer dan menambahkannya ke layer group
 function createAndAddTileLayer(mapKey, layerGroup, url) {
-    const tileLayer = L.tileLayer(url);
+    const tileLayer = L.tileLayer(url, {
+        attribution: '©Google Earth Engine Contributors'
+    });
     tileLayer.addTo(layerGroup);
     layersConfig[mapKey].tileLayer = tileLayer;
 }
@@ -73,3 +75,5 @@ $(document).ready(function () {
         document.getElementById(layersConfig[mapKey].id).addEventListener('change', handleCheckboxChange(mapKey));
     }
 });
+
+// LINK https://chat.openai.com/c/5dfd0755-9af1-4c6f-a26a-15af46508160s

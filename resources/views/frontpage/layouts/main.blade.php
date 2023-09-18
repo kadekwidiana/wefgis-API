@@ -64,8 +64,6 @@
 <script src="{{ asset('js/chart-popup.js') }}"></script>
 <!-- sidebar js -->
 <script src="{{ asset('js/sidebar.js') }}"></script>
-{{-- GEE-WATER js --}}
-<script src="{{ asset('js/gee-water.js') }}"></script>
 
 <!-- leaflet js draw -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
@@ -75,5 +73,9 @@
 
 <!-- feature draw -->
 <script src="{{ asset('js/draw.js') }}"></script>
+{{-- GEO SERVER js --}}
+<script src="{{ asset('js/geoserver.js') }}"></script>
+{{-- GEE js --}}
+<script src="{{ asset('js/gee-water.js') }}"></script>
 
 </html>

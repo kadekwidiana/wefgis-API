@@ -1,63 +1,63 @@
 // START JS SIDEBAR RIGHT
 // Menyeseuaikan posisi control sidebar
 function adjustPositionControlSidebarRight(sidebarClass) {
-    var sidebarWidth = document.querySelector(sidebarClass + '.active') ? 250 : 0; // Adjust the width based on sidebar visibility
+    const sidebarWidth = document.querySelector(sidebarClass + '.active') ? 250 : 0; // Adjust the width based on sidebar visibility
 
     // Atur posisi control leaflet
-    var controlContainersLeaflet = document.querySelectorAll('.leaflet-control-zoom, .leaflet-control-attribution');
+    const controlContainersLeaflet = document.querySelectorAll('.leaflet-control-zoom, .leaflet-control-attribution');
     controlContainersLeaflet.forEach(function (controlContainerLeaflet) {
         controlContainerLeaflet.style.right = sidebarWidth + 'px';
     });
 
     // Atur posisi control basemap, layer, dan legend
-    var controlContainers = document.querySelectorAll('.container-control-basemap, .container-control-layer, .container-control-legend,.container-control-street-view');
+    const controlContainers = document.querySelectorAll('.container-control-basemap, .container-control-layer, .container-control-legend,.container-control-street-view');
     controlContainers.forEach(function (controlContainer) {
         controlContainer.style.right = sidebarWidth + 'px';
     });
 }
 
 function closeBasemapSidebar() {
-    var basemapSidebar = document.getElementById("sidebar-basemap");
+    const basemapSidebar = document.getElementById("sidebar-basemap");
     if (basemapSidebar.classList.contains("active")) {
         basemapSidebar.classList.remove("active");
         adjustPositionControlSidebarRight('.sidebar-basemap'); // Call the function to adjust control positions
-        var basemapButton = document.querySelector('.container-control-basemap button');
+        const basemapButton = document.querySelector('.container-control-basemap button');
         basemapButton.classList.remove("active"); // Remove active class from the button
     }
 }
 
 // Function to close layer sidebar and adjust icons
 function closeLayerSidebar() {
-    var layerSidebar = document.getElementById("sidebar-layer");
+    const layerSidebar = document.getElementById("sidebar-layer");
     if (layerSidebar.classList.contains("active")) {
         layerSidebar.classList.remove("active");
         adjustPositionControlSidebarRight('.sidebar-layer'); // Call the function to adjust control positions
-        var layerButton = document.querySelector('.container-control-layer button');
+        const layerButton = document.querySelector('.container-control-layer button');
         layerButton.classList.remove("active"); // Remove active class from the button
     }
 }
 
 // Function to close legend sidebar and adjust icons
 function closeLegendSidebar() {
-    var layerSidebar = document.getElementById("sidebar-legend");
+    const layerSidebar = document.getElementById("sidebar-legend");
     if (layerSidebar.classList.contains("active")) {
         layerSidebar.classList.remove("active");
         adjustPositionControlSidebarRight('.sidebar-legend'); // Call the function to adjust control positions
-        var layerButton = document.querySelector('.container-control-legend button');
+        const layerButton = document.querySelector('.container-control-legend button');
         layerButton.classList.remove("active"); // Remove active class from the button
     }
 }
 
 // Control button basemaps
-var customControlBasemap = L.Control.extend({
+const customControlBasemap = L.Control.extend({
     options: {
         position: 'topright'
     },
 
     onAdd: function () {
-        var container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-basemap');
-        var button = L.DomUtil.create('button', 'button-control-basemap', container);
-        var image = document.createElement('img');
+        const container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-basemap');
+        const button = L.DomUtil.create('button', 'button-control-basemap', container);
+        const image = document.createElement('img');
         image.src = 'assets/icons/icon-control/icon-basemap.png'; // Ganti dengan path gambar Anda
         image.className = 'custom-image'; // Optional: Atur kelas untuk gambar jika diperlukan
 
@@ -68,7 +68,7 @@ var customControlBasemap = L.Control.extend({
             closeLegendSidebar(); // Close layer sidebar if open
             document.getElementById("sidebar-basemap").classList.toggle("active");
             adjustPositionControlSidebarRight('.sidebar-basemap'); // Call the function to adjust control positions
-            var basemapButton = document.querySelector('.container-control-basemap button');
+            const basemapButton = document.querySelector('.container-control-basemap button');
             basemapButton.classList.toggle("active"); // Toggle active class on the button
         });
 
@@ -79,15 +79,15 @@ var customControlBasemap = L.Control.extend({
 map.addControl(new customControlBasemap());
 
 // Control button layer
-var customControlLayer = L.Control.extend({
+const customControlLayer = L.Control.extend({
     options: {
         position: 'topright'
     },
 
     onAdd: function () {
-        var container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-layer');
-        var button = L.DomUtil.create('button', 'button-control-layer', container);
-        var image = document.createElement('img');
+        const container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-layer');
+        const button = L.DomUtil.create('button', 'button-control-layer', container);
+        const image = document.createElement('img');
         image.src = 'assets/icons/icon-control/icon-layer.png'; // Ganti dengan path gambar Anda
         image.className = 'custom-image'; // Optional: Atur kelas untuk gambar jika diperlukan
 
@@ -99,7 +99,7 @@ var customControlLayer = L.Control.extend({
             closeLegendSidebar(); // Close basemap sidebar if open
             document.getElementById("sidebar-layer").classList.toggle("active");
             adjustPositionControlSidebarRight('.sidebar-layer'); // Call the function to adjust control positions
-            var layerButton = document.querySelector('.container-control-layer button');
+            const layerButton = document.querySelector('.container-control-layer button');
             layerButton.classList.toggle("active"); // Toggle active class on the button
         });
 
@@ -111,15 +111,15 @@ var customControlLayer = L.Control.extend({
 map.addControl(new customControlLayer());
 
 // Control button legend
-var customControlLegend = L.Control.extend({
+const customControlLegend = L.Control.extend({
     options: {
         position: 'topright'
     },
 
     onAdd: function () {
-        var container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-legend');
-        var button = L.DomUtil.create('button', 'button-control-legend', container);
-        var icon = L.DomUtil.create('i', 'fa-solid fa-list fa-xl');
+        const container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-legend');
+        const button = L.DomUtil.create('button', 'button-control-legend', container);
+        const icon = L.DomUtil.create('i', 'fa-solid fa-list fa-xl');
         button.appendChild(icon);
 
         container.addEventListener("click", function () {
@@ -127,7 +127,7 @@ var customControlLegend = L.Control.extend({
             closeLayerSidebar(); // Close basemap sidebar if open
             document.getElementById("sidebar-legend").classList.toggle("active");
             adjustPositionControlSidebarRight('.sidebar-legend'); // Call the function to adjust control positions
-            var layerButton = document.querySelector('.container-control-legend button');
+            const layerButton = document.querySelector('.container-control-legend button');
             layerButton.classList.toggle("active"); // Toggle active class on the button
         });
 
@@ -138,15 +138,15 @@ var customControlLegend = L.Control.extend({
 map.addControl(new customControlLegend());
 
 // Control button legend
-var controlStreetView = L.Control.extend({
+const controlStreetView = L.Control.extend({
     options: {
         position: 'bottomright'
     },
 
     onAdd: function () {
-        var container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-street-view');
-        var button = L.DomUtil.create('button', 'button-control-street-view', container);
-        var icon = L.DomUtil.create('i', 'fa-solid fa-person fa-lg');
+        const container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-street-view');
+        const button = L.DomUtil.create('button', 'button-control-street-view', container);
+        const icon = L.DomUtil.create('i', 'fa-solid fa-person fa-lg');
         button.appendChild(icon);
 
         button.addEventListener("click", function () {
@@ -171,16 +171,16 @@ map.addControl(new controlStreetView());
 // START SIDEBAR LEFT
 // Menyeseuaikan posisi control sidebar basemap
 function adjustPositionControlSidebarLeft(sidebarClass) {
-    var sidebarWidth = document.querySelector(sidebarClass + '.active') ? 450 : 0; // Adjust the width based on sidebar visibility
+    const sidebarWidth = document.querySelector(sidebarClass + '.active') ? 450 : 0; // Adjust the width based on sidebar visibility
 
     // Atur posisi control leaflet
-    var controlContainersLeaflet = document.querySelectorAll('.leaflet-control-scale, .leaflet-control-geocoder, .leaflet-control-navbar, .leaflet-draw ');
+    const controlContainersLeaflet = document.querySelectorAll('.leaflet-control-scale, .leaflet-control-geocoder, .leaflet-control-navbar, .leaflet-draw ');
     controlContainersLeaflet.forEach(function (controlContainerLeaflet) {
         controlContainerLeaflet.style.left = sidebarWidth + 'px';
     });
 
     // Atur posisi control basemap, layer, dan legend
-    var controlContainers = document.querySelectorAll('.container-control-analisis, .container-control-analisis-point');
+    const controlContainers = document.querySelectorAll('.container-control-analisis, .container-control-analisis-point');
     controlContainers.forEach(function (controlContainer) {
         controlContainer.style.left = sidebarWidth + 'px';
     });
@@ -191,43 +191,43 @@ function adjustPositionControlSidebarLeft(sidebarClass) {
 
 // Function to close basemap sidebar and adjust icons
 function closeAnalisisSidebar() {
-    var basemapSidebar = document.getElementById("sidebar-analisis");
+    const basemapSidebar = document.getElementById("sidebar-analisis");
     if (basemapSidebar.classList.contains("active")) {
         basemapSidebar.classList.remove("active");
         adjustPositionControlSidebarLeft('.sidebar-analisis.active'); // Call the function to adjust control positions
-        var basemapButton = document.querySelector('.container-control-analisis button');
+        const basemapButton = document.querySelector('.container-control-analisis button');
         basemapButton.classList.remove("active"); // Remove active class from the button
     }
 }
 // Function to close basemap sidebar and adjust icons
 function closeAnalisisPointSidebar() {
-    var basemapSidebar = document.getElementById("sidebar-analisis-point");
+    const basemapSidebar = document.getElementById("sidebar-analisis-point");
     if (basemapSidebar.classList.contains("active")) {
         basemapSidebar.classList.remove("active");
         adjustPositionControlSidebarLeft('.sidebar-analisis-point.active'); // Call the function to adjust control positions
-        var basemapButton = document.querySelector('.container-control-analisis-point button');
+        const basemapButton = document.querySelector('.container-control-analisis-point button');
         basemapButton.classList.remove("active"); // Remove active class from the button
     }
 }
 
 
 // Control button analisis
-// var customControlAnalisis = L.Control.extend({
+// const customControlAnalisis = L.Control.extend({
 //     options: {
 //         position: 'topleft'
 //     },
 
 //     onAdd: function () {
-//         var container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-analisis');
-//         var button = L.DomUtil.create('button', 'button-control-analisis', container);
-//         var icon = L.DomUtil.create('i', 'fa-solid fa-info fa-xl');
+//         const container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-analisis');
+//         const button = L.DomUtil.create('button', 'button-control-analisis', container);
+//         const icon = L.DomUtil.create('i', 'fa-solid fa-info fa-xl');
 //         button.appendChild(icon);
 
 //         container.addEventListener("click", function () {
 //             closeAnalisisPointSidebar();
 //             document.getElementById("sidebar-analisis").classList.toggle("active");
 //             adjustPositionControlSidebarLeft('.sidebar-analisis.active'); // Call the function to adjust control positions
-//             var layerButton = document.querySelector('.container-control-analisis button');
+//             const layerButton = document.querySelector('.container-control-analisis button');
 //             layerButton.classList.toggle("active"); // Toggle active class on the button
 //         });
 
@@ -238,22 +238,22 @@ function closeAnalisisPointSidebar() {
 // map.addControl(new customControlAnalisis());
 
 // Control button analisis
-var customControlAnalisisPoint = L.Control.extend({
+const customControlAnalisisPoint = L.Control.extend({
     options: {
         position: 'topleft'
     },
 
     onAdd: function () {
-        var container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-analisis-point');
-        var button = L.DomUtil.create('button', 'button-control-analisis-point', container);
-        var icon = L.DomUtil.create('i', 'fa-solid fa-magnifying-glass-chart');
+        const container = L.DomUtil.create('div', 'btn btn-light btn-outline-secondary container-control-analisis-point');
+        const button = L.DomUtil.create('button', 'button-control-analisis-point', container);
+        const icon = L.DomUtil.create('i', 'fa-solid fa-magnifying-glass-chart');
         button.appendChild(icon);
 
         container.addEventListener("click", function () {
             closeAnalisisSidebar();
             document.getElementById("sidebar-analisis-point").classList.toggle("active");
             adjustPositionControlSidebarLeft('.sidebar-analisis-point.active'); // Call the function to adjust control positions
-            var layerButton = document.querySelector('.container-control-analisis-point button');
+            const layerButton = document.querySelector('.container-control-analisis-point button');
             layerButton.classList.toggle("active"); // Toggle active class on the button
         });
 
@@ -267,7 +267,7 @@ map.addControl(new customControlAnalisisPoint());
 L.control.navbar().addTo(map);
 
 // hash
-var hash = new L.Hash(map);
+const hash = new L.Hash(map);
 
 // skala
 L.control.scale().addTo(map);
