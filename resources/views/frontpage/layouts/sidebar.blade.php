@@ -5,8 +5,8 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-check">
-                <input class="form-check-input itemCheckbox border border-secondary" type="checkbox" value=""
-                    id="googleMapsLabel" data-layer="markerGroup1">
+                <input class="form-check-input border border-secondary" type="checkbox" value="" id="googleMapsLabel"
+                    data-layer="google_label">
                 <label class="form-check-label" for="googleMapsLabel">
                     Label
                 </label>
@@ -20,7 +20,7 @@
                 <label>
                     <img src="assets/icons/icon-basemap/openstreetmap_blackandwhite.png" alt="OpenStreetMap"
                         class="img-fluid custom-image-basemap">
-                    <input class="form-check-input" type="radio" name="basemap" value="openStreetMap" checked>
+                    <input class="form-check-input" type="radio" name="basemap" value="openStreetMap">
                     OSM
                 </label>
                 <label>
@@ -39,13 +39,33 @@
                     <img src="assets/icons/icon-basemap/here_satelliteday.png" alt="Satellite "
                         class="img-fluid custom-image-basemap">
                     <input class="form-check-input" type="radio" name="basemap" value="satelliteMap">
-                    Satelite
+                    G-Satelite
                 </label>
                 <label>
                     <img src="assets/icons/icon-basemap/google-hibrid.png" alt="Satellite "
                         class="img-fluid custom-image-basemap">
-                    <input class="form-check-input" type="radio" name="basemap" value="googleHibridMap">
+                    <input class="form-check-input" type="radio" name="basemap" value="googleHibridMap" checked>
                     Hibrid
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="basemap-options">
+                <label>
+                    <img src="assets/icons/icon-basemap/google-terrain.png" alt="Terain "
+                        class="img-fluid custom-image-basemap">
+                    <input class="form-check-input" type="radio" name="basemap" value="googleTerrain">
+                    Terrain
+                </label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="basemap-options">
+                <label>
+                    <img src="assets/icons/icon-basemap/google-traffic.png" alt="Traffic "
+                        class="img-fluid custom-image-basemap">
+                    <input class="form-check-input" type="radio" name="basemap" value="googleTraffic">
+                    Traffic
                 </label>
             </div>
         </div>
@@ -70,12 +90,12 @@
         </div>
 
         <div class="col-md-6">
-            <div class="basemap-options">
+            <div class="basemap-options mb-4">
                 <label>
                     <img src="assets/icons/icon-basemap/esri-satelite.png" alt="Esri "
                         class="img-fluid custom-image-basemap">
                     <input class="form-check-input" type="radio" name="basemap" value="esriSatelite">
-                    Esri Satelite
+                    E-Satelite
                 </label>
                 <label>
                     <img src="assets/icons/icon-basemap/google-earth.png" alt="Thunderforest "
@@ -90,240 +110,508 @@
 
 <!-- Sidebar layer -->
 <div class="container sidebar-layer bg-white mt-0 pb-5" id="sidebar-layer">
-    <h5 class="text-center">Layer</h5>
+    <div class="h5">
+        <input name="select_layer" class="form-check-input border border-secondary" type="radio"
+            value="chachoengsao" id="select_layer_chachoengsao" data-layer="select_layer" checked>
+        Layer Chachoengsao
+    </div>
+    <div class="h5">
+        <input name="select_layer" class="form-check-input border border-secondary" type="radio" value="nakhon"
+            id="select_layer_nakhon" data-layer="select_layer">
+        Layer Nakhon
+    </div>
     <div class="border mb-2"></div>
     <div class="col pb-4">
-        <div class="border rounded">
-            <!-- <div class="border-top"></div> -->
-            <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Crop</p>
-            <div class="p-2">
-                <div class="form-check">
-                    <input name="corn" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_corn" data-layer="corn">
-                    <label class="form-check-label" for="point_corn">
-                        Corn
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input name="paddy" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_paddy" data-layer="paddy">
-                    <label class="form-check-label" for="point_paddy">
-                        Paddy
-                    </label>
+        {{-- LAYER CHACHOENGSAO --}}
+        <div id="layer_chachoengsao" class="">
+            <div class="border rounded">
+                <!-- <div class="border-top"></div> -->
+                <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Crop Chachoengsao</p>
+                <div class="p-2">
+                    <div class="form-check">
+                        <input name="corn" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_corn" data-layer="corn">
+                        <label class="form-check-label" for="point_corn">
+                            Corn
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="paddy" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_paddy" data-layer="paddy">
+                        <label class="form-check-label" for="point_paddy">
+                            Paddy
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input name="baresoil" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_baresoil" data-layer="baresoil">
+                        <label class="form-check-label" for="point_baresoil">
+                            Baresoil
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input name="cassava" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_cassava" data-layer="cassava">
+                        <label class="form-check-label" for="point_cassava">
+                            Cassava
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input name="eucalyptus" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_eucalyptus" data-layer="eucalyptus">
+                        <label class="form-check-label" for="point_eucalyptus">
+                            Eucalyptus
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input name="forest" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_forest" data-layer="forest">
+                        <label class="form-check-label" for="point_forest">
+                            Forest
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input name="grassland" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_grassland" data-layer="grassland">
+                        <label class="form-check-label" for="point_grassland">
+                            Grassland
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input name="palm" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_palm" data-layer="palm">
+                        <label class="form-check-label" for="point_palm">
+                            Palm
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input name="rubber" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_rubber" data-layer="rubber">
+                        <label class="form-check-label" for="point_rubber">
+                            Rubber
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input name="building" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_building" data-layer="building">
+                        <label class="form-check-label" for="point_building">
+                            Building
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input name="sugarcane" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_sugarcane" data-layer="sugarcane">
+                        <label class="form-check-label" for="point_sugarcane">
+                            Sugarcane
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input name="water" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="point_water" data-layer="water">
+                        <label class="form-check-label" for="point_water">
+                            Water
+                        </label>
+                    </div>
+
                 </div>
 
-                <div class="form-check">
-                    <input name="baresoil" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_baresoil" data-layer="baresoil">
-                    <label class="form-check-label" for="point_baresoil">
-                        Baresoil
-                    </label>
+                <!-- Tambahkan item lain di sini -->
+            </div>
+            <div class="border rounded mt-2 d-none">
+                <!-- <div class="border-top"></div> -->
+                <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Google Earth Engine</p>
+                <div class="p-2">
+                    <div class="form-check">
+                        <input name="tci" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="tci" data-layer="tci">
+                        <label class="form-check-label" for="tci">
+                            TCI
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="vci" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="vci" data-layer="vci">
+                        <label class="form-check-label" for="vci">
+                            VCI
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="vhi" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="vhi" data-layer="vhi">
+                        <label class="form-check-label" for="vhi">
+                            VHI
+                        </label>
+                    </div>
                 </div>
 
-                <div class="form-check">
-                    <input name="cassava" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_cassava" data-layer="cassava">
-                    <label class="form-check-label" for="point_cassava">
-                        Cassava
-                    </label>
+                <!-- Tambahkan item lain di sini -->
+            </div>
+            <div class="border rounded mt-2">
+                <!-- <div class="border-top"></div> -->
+                <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Google Earth Engine Chachoengsao</p>
+                <div class="p-2">
+                    <div class="form-check d-none">
+                        <input name="water" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="water" data-layer="water">
+                        <label class="form-check-label" for="water">
+                            Chachoengsao Boundary
+                        </label>
+                    </div>
+                    {{-- Geo Server --}}
+                    <div class="form-check">
+                        <input name="chachoengsao_prov" class="form-check-input border border-secondary"
+                            type="checkbox" value="" id="chachoengsao_prov" data-layer="chachoengsao_prov">
+                        <label class="form-check-label" for="chachoengsao_prov">
+                            Chachoengsao Boundary
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="change_intensity" class="form-check-input border border-secondary"
+                            type="checkbox" value="" id="change_intensity" data-layer="change_intensity">
+                        <label class="form-check-label" for="water">
+                            Change Intensity
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="igbp" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="igbp" data-layer="igbp">
+                        <label class="form-check-label" for="igbp">
+                            IGBP
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="lst" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="lst" data-layer="lst">
+                        <label class="form-check-label" for="lst">
+                            LST
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="occurrence" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="occurrence" data-layer="occurrence">
+                        <label class="form-check-label" for="occurrence">
+                            Occurrence
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input name="water_season" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="water_season" data-layer="water_season">
+                        <label class="form-check-label" for="water_season">
+                            Water Season
+                        </label>
+                    </div>
+
                 </div>
 
-                <div class="form-check">
-                    <input name="eucalyptus" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_eucalyptus" data-layer="eucalyptus">
-                    <label class="form-check-label" for="point_eucalyptus">
-                        Eucalyptus
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input name="forest" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_forest" data-layer="forest">
-                    <label class="form-check-label" for="point_forest">
-                        Forest
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input name="grassland" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_grassland" data-layer="grassland">
-                    <label class="form-check-label" for="point_grassland">
-                        Grassland
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input name="palm" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_palm" data-layer="palm">
-                    <label class="form-check-label" for="point_palm">
-                        Palm
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input name="rubber" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_rubber" data-layer="rubber">
-                    <label class="form-check-label" for="point_rubber">
-                        Rubber
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input name="building" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_building" data-layer="building">
-                    <label class="form-check-label" for="point_building">
-                        Building
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input name="sugarcane" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_sugarcane" data-layer="sugarcane">
-                    <label class="form-check-label" for="point_sugarcane">
-                        Sugarcane
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input name="water" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="point_water" data-layer="water">
-                    <label class="form-check-label" for="point_water">
-                        Water
-                    </label>
+                <!-- Tambahkan item lain di sini -->
+            </div>
+            <!-- GEOSERVER -->
+            <div class="border rounded mt-2 d-none">
+                <!-- <div class="border-top"></div> -->
+                <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Geo Server Chachoengsao</p>
+                <div class="p-2">
+                    <div class="form-check">
+                        <input name="chachoengsao_prov" class="form-check-input border border-secondary"
+                            type="checkbox" value="" id="chachoengsao_prov" data-layer="chachoengsao_prov">
+                        <label class="form-check-label" for="chachoengsao_prov">
+                            Chachoengsao Prov
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="river_chachoengsao" class="form-check-input border border-secondary"
+                            type="checkbox" value="" id="river_chachoengsao" data-layer="river_chachoengsao">
+                        <label class="form-check-label" for="river_chachoengsao">
+                            River Chachoengsao
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="crops_chachoengsao" class="form-check-input border border-secondary"
+                            type="checkbox" value="" id="crops_chachoengsao" data-layer="crops_chachoengsao">
+                        <label class="form-check-label" for="crops_chachoengsao">
+                            Crops Chachoengsao
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="water_body" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="water_body" data-layer="water_body">
+                        <label class="form-check-label" for="water_body">
+                            Water Body
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="building_polygon" class="form-check-input border border-secondary"
+                            type="checkbox" value="" id="building_polygon" data-layer="building_polygon">
+                        <label class="form-check-label" for="building_polygon">
+                            Building Polygon
+                        </label>
+                    </div>
                 </div>
 
             </div>
-
-            <!-- Tambahkan item lain di sini -->
         </div>
-        <div class="border rounded mt-2 d-none">
+
+        {{-- LAYER NAKHON --}}
+        <div id="layer_nakhon" class="d-none">
+            <div class="border rounded mt-2 d-none">
+                <!-- <div class="border-top"></div> -->
+                <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Nakhon Pathom</p>
+                <div class="p-2">
+                    <div class="form-check">
+                        <input name="admin_phichit" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="admin_phichit" data-layer="admin_phichit">
+                        <label class="form-check-label" for="admin_phichit">
+                            Admin Nakhon Pathom
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="agriculture_phichit" class="form-check-input border border-secondary"
+                            type="checkbox" value="" id="agriculture_phichit"
+                            data-layer="agriculture_phichit">
+                        <label class="form-check-label" for="agriculture_phichit">
+                            Agriculture
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="change_line_phichit" class="form-check-input border border-secondary"
+                            type="checkbox" value="" id="change_line_phichit"
+                            data-layer="change_line_phichit">
+                        <label class="form-check-label" for="change_line_phichit">
+                            Change Line
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="MS1_phichit" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="MS1_phichit" data-layer="MS1_phichit">
+                        <label class="form-check-label" for="MS1_phichit">
+                            MS 1
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="rail_phichit" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="rail_phichit" data-layer="rail_phichit">
+                        <label class="form-check-label" for="rail_phichit">
+                            Rail
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="border rounded mt-2">
+                <!-- <div class="border-top"></div> -->
+                <p class="bg-secondary p-2 m-0 rounded-top fw-bold">GEE Nakhon Pathom</p>
+                <div class="p-2">
+                    <div class="form-check">
+                        <input name="nakhon_admin" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="nakhon_admin" data-layer="nakhon_admin">
+                        <label class="form-check-label" for="nakhon_admin">
+                            Admin Nakhon Pathom
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="nakhon_agriculture" class="form-check-input border border-secondary"
+                            type="checkbox" value="" id="nakhon_agriculture" data-layer="nakhon_agriculture">
+                        <label class="form-check-label" for="nakhon_agriculture">
+                            Agriculture
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="nakhon_change" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="nakhon_change" data-layer="nakhon_change">
+                        <label class="form-check-label" for="nakhon_change">
+                            Change Line
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="nakhon_msi" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="nakhon_msi" data-layer="nakhon_msi">
+                        <label class="form-check-label" for="nakhon_msi">
+                            MSI
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="nakhon_rail" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="nakhon_rail" data-layer="nakhon_rail">
+                        <label class="form-check-label" for="nakhon_rail">
+                            Rail
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="border rounded mt-2">
+                <!-- <div class="border-top"></div> -->
+                <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Water Nakhon Pathom</p>
+                <div class="p-2">
+                    <div class="form-check">
+                        <input name="ChangeIntensity" class="form-check-input border border-secondary"
+                            type="checkbox" value="" id="ChangeIntensity" data-layer="ChangeIntensity">
+                        <label class="form-check-label" for="ChangeIntensity">
+                            ChangeIntensity
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="Occurrence" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="Occurrence" data-layer="Occurrence">
+                        <label class="form-check-label" for="Occurrence">
+                            Occurrence
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="Transition" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="Transition" data-layer="Transition">
+                        <label class="form-check-label" for="Transition">
+                            Transition
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input name="WaterSeason" class="form-check-input border border-secondary" type="checkbox"
+                            value="" id="WaterSeason" data-layer="WaterSeason">
+                        <label class="form-check-label" for="WaterSeason">
+                            WaterSeason
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Sidebar layer 2 -->
+<div class="container sidebar-layer2 bg-white mt-0 pb-5" id="sidebar-layer2">
+    <h5 class="text-center">Layer Nakhon Pathom</h5>
+    <div class="border mb-2"></div>
+    <div class="col pb-4">
+        {{-- NAKHON PATHOM PRONVINCE --}}
+        <div class="border rounded mt-2">
             <!-- <div class="border-top"></div> -->
-            <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Google Earth Engine</p>
+            <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Nakhon Pathom Pronvince</p>
             <div class="p-2">
                 <div class="form-check">
-                    <input name="tci" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="tci" data-layer="tci">
-                    <label class="form-check-label" for="tci">
-                        TCI
+                    <input name="admin_phichit" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="admin_phichit" data-layer="admin_phichit">
+                    <label class="form-check-label" for="admin_phichit">
+                        Admin Nakhon Pathom
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="vci" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="vci" data-layer="vci">
-                    <label class="form-check-label" for="vci">
-                        VCI
+                    <input name="agriculture_phichit" class="form-check-input border border-secondary"
+                        type="checkbox" value="" id="agriculture_phichit" data-layer="agriculture_phichit">
+                    <label class="form-check-label" for="agriculture_phichit">
+                        Agriculture
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="vhi" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="vhi" data-layer="vhi">
-                    <label class="form-check-label" for="vhi">
-                        VHI
+                    <input name="change_line_phichit" class="form-check-input border border-secondary"
+                        type="checkbox" value="" id="change_line_phichit" data-layer="change_line_phichit">
+                    <label class="form-check-label" for="change_line_phichit">
+                        Change Line
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input name="MS1_phichit" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="MS1_phichit" data-layer="MS1_phichit">
+                    <label class="form-check-label" for="MS1_phichit">
+                        MS 1
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input name="rail_phichit" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="rail_phichit" data-layer="rail_phichit">
+                    <label class="form-check-label" for="rail_phichit">
+                        Rail
                     </label>
                 </div>
             </div>
 
-            <!-- Tambahkan item lain di sini -->
         </div>
 
         <div class="border rounded mt-2">
             <!-- <div class="border-top"></div> -->
-            <p class="bg-secondary p-2 m-0 rounded-top fw-bold">GEE</p>
+            <p class="bg-secondary p-2 m-0 rounded-top fw-bold">GEE Nakhon Pathom Pronvince</p>
             <div class="p-2">
                 <div class="form-check">
-                    <input name="water" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="water" data-layer="water">
-                    <label class="form-check-label" for="water">
-                        Chachoengsao
+                    <input name="nakhon_admin" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="nakhon_admin" data-layer="nakhon_admin">
+                    <label class="form-check-label" for="nakhon_admin">
+                        Admin Nakhon Pathom
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="change_intensity" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="change_intensity" data-layer="change_intensity">
-                    <label class="form-check-label" for="change_intensity">
-                        Change Intensity
+                    <input name="nakhon_agriculture" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="nakhon_agriculture" data-layer="nakhon_agriculture">
+                    <label class="form-check-label" for="nakhon_agriculture">
+                        Agriculture
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="igbp" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="igbp" data-layer="igbp">
-                    <label class="form-check-label" for="igbp">
-                        IGBP
+                    <input name="nakhon_change" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="nakhon_change" data-layer="nakhon_change">
+                    <label class="form-check-label" for="nakhon_change">
+                        Change Line
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="lst" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="lst" data-layer="lst">
-                    <label class="form-check-label" for="lst">
-                        LST
+                    <input name="nakhon_msi" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="nakhon_msi" data-layer="nakhon_msi">
+                    <label class="form-check-label" for="nakhon_msi">
+                        MS 1
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="occurrence" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="occurrence" data-layer="occurrence">
-                    <label class="form-check-label" for="occurrence">
+                    <input name="nakhon_rail" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="nakhon_rail" data-layer="nakhon_rail">
+                    <label class="form-check-label" for="nakhon_rail">
+                        Rail
+                    </label>
+                </div>
+            </div>
+
+        </div>
+        <div class="border rounded mt-2">
+            <!-- <div class="border-top"></div> -->
+            <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Water Nakhon Pathom Pronvince</p>
+            <div class="p-2">
+                <div class="form-check">
+                    <input name="ChangeIntensity" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="ChangeIntensity" data-layer="ChangeIntensity">
+                    <label class="form-check-label" for="ChangeIntensity">
+                        ChangeIntensity
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input name="Occurrence" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="Occurrence" data-layer="Occurrence">
+                    <label class="form-check-label" for="Occurrence">
                         Occurrence
                     </label>
                 </div>
-
                 <div class="form-check">
-                    <input name="water_season" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="water_season" data-layer="water_season">
-                    <label class="form-check-label" for="water_season">
-                        Water Season
-                    </label>
-                </div>
-
-            </div>
-
-            <!-- Tambahkan item lain di sini -->
-        </div>
-        <!-- GEOSERVER -->
-        <div class="border rounded mt-2 d-none">
-            <!-- <div class="border-top"></div> -->
-            <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Geo Server</p>
-            <div class="p-2">
-                <div class="form-check">
-                    <input name="chachoengsao_prov" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="chachoengsao_prov" data-layer="chachoengsao_prov">
-                    <label class="form-check-label" for="chachoengsao_prov">
-                        Chachoengsao Prov
+                    <input name="Transition" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="Transition" data-layer="Transition">
+                    <label class="form-check-label" for="Transition">
+                        Transition
                     </label>
                 </div>
                 <div class="form-check">
-                    <input name="river_chachoengsao" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="river_chachoengsao" data-layer="river_chachoengsao">
-                    <label class="form-check-label" for="river_chachoengsao">
-                        River Chachoengsao
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input name="crops_chachoengsao" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="crops_chachoengsao" data-layer="crops_chachoengsao">
-                    <label class="form-check-label" for="crops_chachoengsao">
-                        Crops Chachoengsao
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input name="water_body" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="water_body" data-layer="water_body">
-                    <label class="form-check-label" for="water_body">
-                        Water Body
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input name="building_polygon" class="form-check-input border border-secondary" type="checkbox"
-                        value="" id="building_polygon" data-layer="building_polygon">
-                    <label class="form-check-label" for="building_polygon">
-                        Building Polygon
+                    <input name="WaterSeason" class="form-check-input border border-secondary" type="checkbox"
+                        value="" id="WaterSeason" data-layer="WaterSeason">
+                    <label class="form-check-label" for="WaterSeason">
+                        WaterSeason
                     </label>
                 </div>
             </div>
-
-            <!-- Tambahkan item lain di sini -->
         </div>
     </div>
-
 </div>
 
 <!-- Sidebar legend -->
@@ -431,7 +719,17 @@
             </div>
 
         </div> --}}
-
+        {{-- <div class="border rounded mt-2 mb-4">
+            <!-- <div class="border-top"></div> -->
+            <p class="bg-secondary p-2 m-0 rounded-top fw-bold">Water Chachoengsao</p>
+            <div class="p-2">
+                <div class="">
+                    <img class="rounded float-left"
+                        src="http://localhost:8080/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&STRICT=false&style=thailand_service:style_river_chachoengsao"
+                        alt="">
+                </div>
+            </div>
+        </div> --}}
     </div>
 </div>
 
@@ -486,11 +784,12 @@
             <form action="" method="post" id="datForm">
                 <div class="form-group mt-2">
                     <label for="geometry">Geometry</label>
-                    <textarea class="form-control" id="geometry" name="geometry" placeholder="geojson"></textarea>
+                    <textarea class="form-control" id="geometry" name="geometry" placeholder="Geojson"></textarea>
                 </div>
                 <div class="form-group mt-2">
                     <label for="type">Type</label>
-                    <input class="form-control" id="type" name="type" placeholder="Type" required>
+                    <input class="form-control" id="type" name="type" placeholder="Automatic by draw"
+                        readonly>
                 </div>
 
                 <div class="row mb-2">

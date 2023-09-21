@@ -84,43 +84,59 @@ $(document).ready(function () {
 
         // Loop melalui data untuk semua kelas
         $.each(data, function (index) {
-            var currentClass = data[index].class;
+            const currentClass = data[index].class;
 
             if (classToIcon.hasOwnProperty(currentClass)) {
-                var icon = classToIcon[currentClass].icon;
-                var group = classToIcon[currentClass].group;
+                const icon = classToIcon[currentClass].icon;
+                const group = classToIcon[currentClass].group;
 
-                var marker = L.marker([parseFloat(data[index].latitude), parseFloat(data[index].longitude)], { icon: icon });
+                const marker = L.marker([parseFloat(data[index].latitude), parseFloat(data[index].longitude)], { icon: icon });
 
-                var popupContent = '<div class="popup-container">';
-                popupContent += '<div class="popup-header">Class: ' + data[index].class + '</div>';
-                popupContent += '<div class="popup-coordinates">Coordinate: ' + data[index].latitude + ',' + data[index].longitude + '</div>';
-                popupContent += '<div class="popup-address mb-2">Address: <span id="address-placeholder">Loading...</span></div>';
-                popupContent += '<div class="popup-address mb-2"><a style="text-decoration: none;" href="http://maps.google.com/maps?q=&layer=c&cbll=' + data[index].latitude + ',' + data[index].longitude + '&cbp=11,0,0,0" target="_blank"><b>Street View</b></a></div>';
+                const popupContent = `
+                <div class="popup-container">
+                    <div class="popup-header">Class : ${data[index].class}</div>
+                    <div class="popup-coordinates">Coordinate : ${data[index].latitude},${data[index].longitude}</div>
+                    <div class="popup-address mb-2">Address : <span id="address-placeholder">Loading...</span></div>
+                    <div class="popup-address mb-2">
+                    <a style="text-decoration: none;" href="http://maps.google.com/maps?q=&layer=c&cbll=${data[index].latitude},${data[index].longitude}&cbp=11,0,0,0" target="_blank"><b>Street View</b></a>
+                    </div>
 
+                    <!-- Add Bootstrap tabs -->
+                    <ul class="nav nav-tabs justify-content-center" role="tablist">
+                    <li class="nav-item"><a class="nav-link active" href="#chart1-${data[index].id}" role="tab" data-toggle="tab">Cumulative Rainfall</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#chart2-${data[index].id}" role="tab" data-toggle="tab">VCI</a></li>
+                    </ul>
 
-                // Add Bootstrap tabs
-                popupContent += '<ul class="nav nav-tabs justify-content-center" role="tablist">';
-                popupContent += '<li class="nav-item"><a class="nav-link active" href="#chart1-' + data[index].id + '" role="tab" data-toggle="tab">Cumulative Rainfall</a></li>';
-                popupContent += '<li class="nav-item"><a class="nav-link" href="#chart2-' + data[index].id + '" role="tab" data-toggle="tab">VCI</a></li>';
-                popupContent += '</ul>';
+                    <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="chart1-${data[index].id}">
+                        <div id="failed1">Data not found</div>
+                        <div id="loading1"><div class="spinner-border text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                        </div></div>
+                        <canvas id="myChart1${data[index].id}" width="600" height="400"></canvas>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="chart2-${data[index].id}">
+                        <div id="failed2">Data not found</div>
+                        <div id="loading2">
+                        <div class="spinner-border text-secondary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                        </div>
+                        </div>
+                        <canvas id="myChart2${data[index].id}" width="600" height="400"></canvas>
+                    </div>
+                    </div>
+                </div>
+                `;
 
-                popupContent += '<div class="tab-content">';
-                // popupContent += '<div id="loading1"><div class="loading-spinner"></div></div>';
-                // popupContent += '<div id="failed1">Data not found</div>';
-                popupContent += '<div role="tabpanel" class="tab-pane active" id="chart1-' + data[index].id + '"><div id="failed1">Data not found</div><div id="loading1"><i class="fa-solid fa-spinner fa-spin-pulse fa-2xl"></i></div><canvas id="myChart1' + data[index].id + '" width="600" height="400"></canvas></div>';
-                popupContent += '<div role="tabpanel" class="tab-pane" id="chart2-' + data[index].id + '"><div id="failed2">Data not found</div><div id="loading2" class="d-flex align-items-center justify-content-center"><i class="fa-solid fa-spinner fa-spin-pulse fa-2xl"></i></div><canvas id="myChart2' + data[index].id + '" width="600" height="400"></canvas></div>';
-                popupContent += '</div>';
-                popupContent += '</div>';
-                var popup = L.popup().setContent(popupContent);
+                const popup = L.popup().setContent(popupContent);
 
                 marker.addTo(group).bindPopup(popup);
 
                 marker.on('click', function () {
-                    var addressPlaceholder = document.getElementById('address-placeholder');
+                    const addressPlaceholder = document.getElementById('address-placeholder');
 
                     $.getJSON(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${data[index].latitude}&lon=${data[index].longitude}&zoom=18&addressdetails=1`, function (data) {
-                        var address = data.display_name;
+                        const address = data.display_name;
                         addressPlaceholder.textContent = address;
                     });
 
@@ -128,9 +144,9 @@ $(document).ready(function () {
                     $('#failed2').hide();
 
                     // Mendapatkan CSRF token dari meta tag HTML
-                    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                    const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
-                    var postData = {
+                    const postData = {
                         geometry: '[' + data[index].longitude + ',' + data[index].latitude + ']',
                         type: 'point',
                         startYear: 2020,
@@ -153,19 +169,19 @@ $(document).ready(function () {
                                     $('#loading2').addClass('d-none');
                                 }
 
-                                var monthlyData = response.data;
-                                var dataKey = responseKey;
+                                const monthlyData = response.data;
+                                const dataKey = responseKey;
 
-                                var dataArray = [];
-                                for (var i = 0; i < monthlyData.length; i++) {
-                                    var value = monthlyData[i][dataKey];
+                                const dataArray = [];
+                                for (let i = 0; i < monthlyData.length; i++) {
+                                    const value = monthlyData[i][dataKey];
                                     dataArray.push(value);
                                 }
 
-                                var yearlyData = {};
-                                for (var i = 0; i < monthlyData.length; i++) {
-                                    var year = monthlyData[i].Year || monthlyData[i].year; // Adjust based on your response structure
-                                    var value = monthlyData[i][dataKey];
+                                const yearlyData = {};
+                                for (let i = 0; i < monthlyData.length; i++) {
+                                    const year = monthlyData[i].Year || monthlyData[i].year; // Adjust based on your response structure
+                                    const value = monthlyData[i][dataKey];
 
                                     if (!yearlyData.hasOwnProperty(year)) {
                                         yearlyData[year] = [];
@@ -176,23 +192,23 @@ $(document).ready(function () {
 
                                 // Function to generate a random color
                                 function getRandomColor() {
-                                    var letters = '0123456789ABCDEF';
-                                    var color = '#';
-                                    for (var i = 0; i < 6; i++) {
+                                    const letters = '0123456789ABCDEF';
+                                    const color = '#';
+                                    for (const i = 0; i < 6; i++) {
                                         color += letters[Math.floor(Math.random() * 16)];
                                     }
                                     return color;
                                 }
 
-                                var datasets = [];
-                                var colorMap = {
+                                const datasets = [];
+                                const colorMap = {
                                     '2020': 'red',
                                     '2021': 'green',
                                     '2022': 'blue'
                                 };
-                                for (var year in yearlyData) {
+                                for (const year in yearlyData) {
                                     if (yearlyData.hasOwnProperty(year)) {
-                                        var color = colorMap[year];
+                                        const color = colorMap[year];
                                         datasets.push({
                                             label: year,
                                             data: yearlyData[year],
@@ -203,9 +219,9 @@ $(document).ready(function () {
                                     }
                                 }
 
-                                var markerIndex = data[index].id;
+                                const markerIndex = data[index].id;
 
-                                var ctx = document.getElementById(canvasId + markerIndex).getContext('2d');
+                                const ctx = document.getElementById(canvasId + markerIndex).getContext('2d');
                                 new Chart(ctx, {
                                     type: 'line',
                                     data: {
@@ -220,8 +236,8 @@ $(document).ready(function () {
                                                 maxTicksLimit: 12,
                                             },
                                             y: {
-                                                min: 0,
-                                                max: Math.max(...dataArray) + 100,
+                                                min: Math.min(...dataArray) - 20,
+                                                max: Math.max(...dataArray) + 50,
                                                 beginAtZero: true,
                                             }
                                         },

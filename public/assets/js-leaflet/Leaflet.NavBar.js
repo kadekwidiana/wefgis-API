@@ -15,7 +15,6 @@
     },
 
     onAdd: function (map) {
-
       // Set options
       if (!this.options.center) {
         this.options.center = map.getCenter();

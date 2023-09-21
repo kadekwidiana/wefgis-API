@@ -96,4 +96,28 @@ class CropChacoengsaoController extends Controller
     
         return response()->json($responseData);
     }
+
+    // GEE Nakhon Pathom
+    public function nakhonWater()
+    {
+        try {
+            $url = $this->baseUrl.'/nakhonwater';
+            $response = Http::get($url);
+            $data = $response->json();
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'API request failed'], 500);
+        }
+    }
+    public function nakhonMap()
+    {
+        try {
+            $url = $this->baseUrl.'/nakhonmap';
+            $response = Http::get($url);
+            $data = $response->json();
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'API request failed'], 500);
+        }
+    }
 }

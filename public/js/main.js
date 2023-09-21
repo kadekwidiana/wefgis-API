@@ -1,60 +1,93 @@
 // Basemaps
-const atributeName = '© WebGIS chachoengsao';
-var openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: atributeName,
+const openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '©OpenStreetMap Contributors',
 });
 
-var googleStreetMap = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
-    attribution: atributeName,
+const googleStreetMap = L.tileLayer('http://{s}.google.com/vt?lyrs=m&x={x}&y={y}&z={z}', {
+    attribution: '©Google StreetMap',
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     maxZoom: 20
 });
 
-var satelliteMap = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-    attribution: atributeName,
+const satelliteMap = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+    attribution: '©Google Satellite Map',
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     maxZoom: 20
 });
 
-var googleHibridMap = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
-    attribution: atributeName,
+const googleHibridMap = L.tileLayer('http://{s}.google.com/vt?lyrs=s,h&x={x}&y={y}&z={z}', {
+    attribution: '©Google Hybrid Map',
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     maxZoom: 20
 });
 
-// basemap from cht gpt
-var openTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors',
+const googleTerrain = L.tileLayer('https://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+    attribution: '©Google Terrain'
+});
+
+const googleTraffic = L.tileLayer('http://{s}.google.com/vt/lyrs=m,traffic&hl=en&x={x}&y={y}&z={z}&s=Ga', {
+    maxZoom: 20,
+    subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+    attribution: '©Google Traffic'
+});
+
+const openTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+    attribution: '©OpenTopoMap Contributors',
 
 });
-var esriSatelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '© <a href="https://www.esri.com">Esri</a>',
+const esriSatelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '©<a href="https://www.esri.com">Esri Satelite</a>',
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     maxZoom: 20
 });
-var esriWorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-    attribution: '© <a href="https://www.esri.com">Esri</a>',
+const esriWorldStreetMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '©<a href="https://www.esri.com">Esri Street</a>',
     subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
     maxZoom: 20
 });
-var googleEarth = L.tileLayer('https://storage.googleapis.com/global-surface-water/tiles2021/transitions/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.thunderforest.com/maps/landscape/">Thunderforest</a>',
+const googleEarth = L.tileLayer('https://storage.googleapis.com/global-surface-water/tiles2021/transitions/{z}/{x}/{y}.png', {
+    attribution: '©<a href="https://www.thunderforest.com/maps/landscape/">Thunderforest</a>',
 });
 
-var _zoom = 10;
+const _zoom = 10;
+const coorChachoengsao = [13.666790631230649, 101.35322935835381];
+const coorNakhon = [13.93136446765414, 100.086705447267];
 
 // Initialize the map with the default basemap
-var map = L.map('map', {
-    layers: [googleHibridMap],
-    center: [13.666790631230649, 101.35322935835381],
+const map = L.map('map', {
+    layers: googleHibridMap,
+    center: coorChachoengsao,
     zoom: _zoom,
     minZoom: 5,
     zoomControl: false
 });
 
+// Event listener for radio inputs
+const radioInputs = document.querySelectorAll('input[name="select_layer"]');
+radioInputs.forEach(input => {
+    input.addEventListener('change', function () {
+        // Get the selected layer value
+        const selectedLayer = this.value;
+
+        // Update map view based on the selected layer
+        if (selectedLayer === "chachoengsao") {
+            $('#layer_chachoengsao').removeClass('d-none');
+            $('#layer_nakhon').addClass('d-none');
+            map.setView(coorChachoengsao, _zoom);
+        } else if (selectedLayer === "nakhon") {
+            $('#layer_chachoengsao').addClass('d-none');
+            $('#layer_nakhon').removeClass('d-none');
+            map.setView(coorNakhon, _zoom);
+        }
+    });
+});
 
 //basemap Google Maps Label
-var googleMapsLabel = L.tileLayer('https://mt1.google.com/vt/lyrs=h&x={x}&y={y}&z={z}');
+const googleMapsLabel = L.tileLayer('https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/6e20dcda0306d1612c1c93896fabf4bd-3812d50f5e3a412f3e1a16d9f1970210/tiles/%7Bz%7D/%7Bx%7D/%7By%7D', {
+    attribution: '©<a href="https://www.google.com/maps">Google Maps Label</a>',
+});
 
 // Fungsi untuk mengatur visibilitas lapisan Google Maps Label berdasarkan checkbox
 function updateGoogleMapsLabelVisibility() {
@@ -64,25 +97,27 @@ function updateGoogleMapsLabelVisibility() {
         map.removeLayer(googleMapsLabel);
     }
 }
-
 // Event listener untuk mengaktifkan fungsi saat checkbox berubah
 document.getElementById('googleMapsLabel').addEventListener('change', updateGoogleMapsLabelVisibility);
-
 
 // Fungsi untuk mengganti basemap
 function changeBasemap(newBasemap) {
     map.eachLayer(function (layer) {
-        map.removeLayer(layer);
+        if (layer !== newBasemap) {
+            map.removeLayer(layer);
+        }
     });
     newBasemap.addTo(map);
 }
 
 // Daftar pilihan basemap dan elemen input yang berkaitan
-var basemapOptions = [
+const basemapOptions = [
     { name: 'openStreetMap', layer: openStreetMap },
     { name: 'googleStreetMap', layer: googleStreetMap },
     { name: 'satelliteMap', layer: satelliteMap },
     { name: 'googleHibridMap', layer: googleHibridMap },
+    { name: 'googleTerrain', layer: googleTerrain },
+    { name: 'googleTraffic', layer: googleTraffic },
     { name: 'openTopoMap', layer: openTopoMap },
     { name: 'esriWorldStreetMap', layer: esriWorldStreetMap },
     { name: 'esriSatelite', layer: esriSatelite },
@@ -96,22 +131,25 @@ basemapOptions.forEach(function (option) {
     });
 });
 
-
 // Memilih semua gambar basemap
-var basemapImages = document.querySelectorAll('.sidebar-basemap img');
+const basemapImages = document.querySelectorAll('.sidebar-basemap img');
 
 // Menambahkan event listener pada setiap gambar basemap
 basemapImages.forEach(function (image) {
     image.addEventListener('click', function () {
-        var radio = this.closest('label').querySelector('input[type="radio"]');
+        const radio = this.closest('label').querySelector('input[type="radio"]');
         radio.checked = true;
 
-        var selectedBasemap = radio.value;
+        const selectedBasemap = radio.value;
 
-        map.eachLayer(function (layer) {
-            map.removeLayer(layer);
+        // Hapus basemap yang tidak terpilih
+        basemapOptions.forEach(function (option) {
+            if (option.name !== selectedBasemap) {
+                map.removeLayer(option.layer);
+            }
         });
 
+        // Tambahkan basemap yang terpilih
         switch (selectedBasemap) {
             case 'openStreetMap':
                 openStreetMap.addTo(map);
@@ -124,6 +162,12 @@ basemapImages.forEach(function (image) {
                 break;
             case 'googleHibridMap':
                 googleHibridMap.addTo(map);
+                break;
+            case 'googleTerrain':
+                googleTerrain.addTo(map);
+                break;
+            case 'googleTraffic':
+                googleTraffic.addTo(map);
                 break;
             case 'openTopoMap':
                 openTopoMap.addTo(map);
@@ -142,13 +186,6 @@ basemapImages.forEach(function (image) {
         }
     });
 });
-
-// geoserver layer
-const chachoengsao_prov = L.layerGroup();
-const river_chachoengsao = L.layerGroup();
-const crops_chachoengsao = L.layerGroup();
-const water_body = L.layerGroup();
-const building_polygon = L.layerGroup();
 
 // earth_engine layer
 const tci = L.layerGroup();
@@ -195,26 +232,24 @@ const vhi = L.layerGroup();
 
 // Fungsi untuk menghancurkan grafik berdasarkan ID
 function destroyChart(chartId) {
-    var existingChart = Chart.getChart(chartId);
+    const existingChart = Chart.getChart(chartId);
     if (existingChart) {
         existingChart.destroy();
     }
 }
-
-
 $(document).ready(function () {
     $("#reqInfo").click(function () {
         // Mengambil nilai dari input geometry dan type
-        var geometryValue = $("#geometry").val();
-        var typeValue = $('#type').val();
-        var inputStartYear = $('#startYear').val();
-        var inputEndYear = $('#endYear').val();
+        const geometryValue = $("#geometry").val();
+        const typeValue = $('#type').val();
+        const inputStartYear = $('#startYear').val();
+        const inputEndYear = $('#endYear').val();
 
         // Mendapatkan CSRF token dari meta tag HTML
-        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+        const csrfToken = $('meta[name="csrf-token"]').attr('content');
 
         // Data yang akan dikirim dalam permintaan POST
-        var postData = {
+        const postData = {
             geometry: geometryValue,
             type: typeValue,
             startYear: inputStartYear,
@@ -228,7 +263,7 @@ $(document).ready(function () {
         $('#getInfo').addClass('d-none');
         $('#loadInfo').removeClass('d-none');
 
-        // Fungsi untuk mengambil data dan membuat chart
+        // Func untuk mengambil data dan membuat chart
         function fetchDataAndCreateChart(url, responseKey, chartTitle, canvasId, layerMapGEE, idCheckBox) {
             $.ajax({
                 type: "POST",
@@ -261,24 +296,17 @@ $(document).ready(function () {
 
 
                     destroyChart(canvasId);
-                    console.log(response.map[layerMapGEE]);
-                    if (responseKey === 'VCI') {
-                        var vciLayer = L.tileLayer(response.map.VCI);
-                        if ($('#' + idCheckBox).is(':checked')) {
-                            vciLayer.addTo(map); // Menampilkan lapisan VCI jika checkbox sudah dicentang
-                        }
-                        $('#' + idCheckBox).on('change', function () {
-                            if (this.checked) {
-                                vciLayer.addTo(map); // Menampilkan lapisan VCI saat checkbox dicentang
-                            } else {
-                                vciLayer.removeFrom(map); // Menghilangkan lapisan VCI saat checkbox dicentang
-                            }
-                        });
+                    console.log(response.map);
+
+                    // Mengatur ulang objek response.map menjadi objek kosong
+
+                    // response.map = {};
+                    const layerMapFromGEE = L.tileLayer(response.map[layerMapGEE]);
+
+
+                    if ($('#' + idCheckBox).is(':checked')) {
+                        layerMapFromGEE.addTo(map); // Menampilkan lapisan VCI jika checkbox sudah dicentang
                     }
-
-                    var layerMapFromGEE = L.tileLayer(response.map[layerMapGEE]);
-
-
                     $('#' + idCheckBox).on('change', function () {
                         if (this.checked) {
                             layerMapFromGEE.addTo(map); // Menampilkan lapisan layer
@@ -287,19 +315,19 @@ $(document).ready(function () {
                         }
                     });
 
-                    var monthlyData = response.data;
-                    var dataKey = responseKey;
+                    const monthlyData = response.data;
+                    const dataKey = responseKey;
 
-                    var dataArray = [];
-                    for (var i = 0; i < monthlyData.length; i++) {
-                        var value = monthlyData[i][dataKey];
+                    const dataArray = [];
+                    for (let i = 0; i < monthlyData.length; i++) {
+                        const value = monthlyData[i][dataKey];
                         dataArray.push(value);
                     }
 
-                    var yearlyData = {};
-                    for (var i = 0; i < monthlyData.length; i++) {
-                        var year = monthlyData[i].Year || monthlyData[i].year;
-                        var value = monthlyData[i][dataKey];
+                    const yearlyData = {};
+                    for (let i = 0; i < monthlyData.length; i++) {
+                        const year = monthlyData[i].Year || monthlyData[i].year;
+                        const value = monthlyData[i][dataKey];
 
                         if (!yearlyData.hasOwnProperty(year)) {
                             yearlyData[year] = [];
@@ -310,25 +338,25 @@ $(document).ready(function () {
 
                     // Function to generate a random color
                     function getRandomColor() {
-                        var letters = '0123456789ABCDEF';
-                        var color = '#';
-                        for (var i = 0; i < 6; i++) {
+                        const letters = '0123456789ABCDEF';
+                        const color = '#';
+                        for (const i = 0; i < 6; i++) {
                             color += letters[Math.floor(Math.random() * 16)];
                         }
                         return color;
                     }
 
-                    var datasets = [];
-                    var colorMap = {
+                    const datasets = [];
+                    const colorMap = {
                         '2018': 'yellow',
                         '2019': 'orange',
                         '2020': 'red',
                         '2021': 'green',
                         '2022': 'blue'
                     };
-                    for (var year in yearlyData) {
+                    for (const year in yearlyData) {
                         if (yearlyData.hasOwnProperty(year)) {
-                            var color = colorMap[year];
+                            const color = colorMap[year];
                             datasets.push({
                                 label: year,
                                 data: yearlyData[year],
@@ -339,10 +367,10 @@ $(document).ready(function () {
                         }
                     }
 
-                    // var markerIndex = data[index].id;
+                    // const markerIndex = data[index].id;
 
-                    var ctx = document.getElementById(canvasId).getContext('2d');
-                    var chart = new Chart(ctx, {
+                    const ctx = document.getElementById(canvasId).getContext('2d');
+                    const chart = new Chart(ctx, {
                         type: 'line',
                         data: {
                             labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -415,54 +443,8 @@ $(document).ready(function () {
     });
 });
 
-
-// LAYER GEOSERVER
-// Fungsi untuk menambahkan WMS layer dengan konfigurasi yang diberikan
-function addWMSToMap(url, layerName, targetLayer) {
-    var wms_layer = L.tileLayer.wms(url, {
-        layers: layerName,
-        format: 'image/png',
-        transparent: true,
-    });
-    wms_layer.addTo(targetLayer);
-}
-
-// Panggil fungsi untuk menambahkan WMS layer ke dalam lapisan tertentu
-addWMSToMap("http://localhost:8080/geoserver/river_thailand/wms", 'river_thailand:prov_chachoengsao', chachoengsao_prov);
-addWMSToMap("http://localhost:8080/geoserver/river_thailand/wms", 'river_thailand:river-chachoengsao', river_chachoengsao);
-addWMSToMap("http://localhost:8080/geoserver/river_thailand/wms", 'river_thailand:crops-point', crops_chachoengsao);
-addWMSToMap("http://localhost:8080/geoserver/geo_tiff/wms?service=WMS", 'geo_tiff:occurrence_100E_20Nv1_4_2021(1)', water_body);
-addWMSToMap("http://localhost:8080/geoserver/thailand_service/wms", 'thailand_service:building', building_polygon);
-
-
-// Fungsi untuk mengatur tampilan lapisan berdasarkan checkbox
-function handleLayerCheckboxChange(checkbox, layer) {
-    if (checkbox.checked) {
-        layer.addTo(map); // Menampilkan lapisan marker
-    } else {
-        layer.removeFrom(map); // Menghilangkan lapisan marker
-    }
-}
-
-// Daftar lapisan dan checkbox yang berkaitan
-var layerCheckboxPairs = [
-    { checkboxId: 'chachoengsao_prov', layer: chachoengsao_prov },
-    { checkboxId: 'river_chachoengsao', layer: river_chachoengsao },
-    { checkboxId: 'crops_chachoengsao', layer: crops_chachoengsao },
-    { checkboxId: 'water_body', layer: water_body },
-    { checkboxId: 'building_polygon', layer: building_polygon }
-];
-
-// Menambahkan event listener untuk setiap checkbox
-layerCheckboxPairs.forEach(function (pair) {
-    var checkbox = document.getElementById(pair.checkboxId);
-    checkbox.addEventListener('change', function () {
-        handleLayerCheckboxChange(checkbox, pair.layer);
-    });
-});
-
 // search
-var osmGeocoder = new L.Control.Geocoder({
+const osmGeocoder = new L.Control.Geocoder({
     collapsed: true,
     position: 'topleft',
     text: 'Search',
@@ -474,19 +456,19 @@ document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
     .title += 'Search for a place';
 
 // Custom zoom control
-var customZoomControl = L.control.zoom({
-    position: 'bottomright'  // Set the position to bottom right
+const customZoomControl = L.control.zoom({
+    position: 'bottomleft'  // Set the position to bottom right
 });
 // Add the custom zoom control to the map
-map.addControl(customZoomControl);
+// map.addControl(customZoomControl);
 
 
 // Menambahkan event listener untuk checkbox
-var checkboxes = document.querySelectorAll('.itemCheckbox');
+const checkboxes = document.querySelectorAll('.itemCheckbox');
 checkboxes.forEach(function (checkbox) {
     checkbox.addEventListener('change', function () {
-        var layerName = this.getAttribute('data-layer');
-        var layer = window[layerName];
+        const layerName = this.getAttribute('data-layer');
+        const layer = window[layerName];
 
         if (this.checked) {
             map.addLayer(layer);
@@ -495,3 +477,61 @@ checkboxes.forEach(function (checkbox) {
         }
     });
 });
+
+$.getJSON("/pointNakhon", function (data) {
+    // console.log(data);
+    $.each(data, function (index) {
+        // console.log(data[index].project_name);
+        // console.log(data[index].longitude);
+        L.marker([parseFloat(data[index].latitude), parseFloat(data[index]
+            .longitude)],
+        ).addTo(map)
+    })
+}).fail(function (jqXHR, textStatus, error) {
+    // console.log("Error: " + error);
+});
+
+
+
+
+
+
+
+
+// const cachedData = localStorage.getItem('cachedData');
+// const cacheTimestamp = localStorage.getItem('cacheTimestamp');
+
+// if (cachedData && cacheTimestamp) {
+//     const currentTime = new Date().getTime();
+//     const cacheTime = parseInt(cacheTimestamp);
+
+//     // Cek apakah data masih berlaku (belum kedaluwarsa)
+//     if (currentTime - cacheTime < 20000) { // 20 detik (dalam milidetik)
+//         // Gunakan data dari cache lokal
+//         console.log('Menggunakan data dari cache lokal: ' + cachedData);
+//     } else {
+//         // Data telah kedaluwarsa, lakukan permintaan ke server lagi
+//         fetchDataFromServer().then((data) => {
+//             // Simpan data baru di cache lokal
+//             localStorage.setItem('cachedData', data);
+//             localStorage.setItem('cacheTimestamp', new Date().getTime().toString());
+//             console.log('Data dari server: ' + data);
+//         });
+//     }
+// } else {
+//     // Jika data tidak ada di cache lokal, lakukan permintaan ke server
+//     fetchDataFromServer().then((data) => {
+//         // Simpan data di cache lokal
+//         localStorage.setItem('cachedData', data);
+//         localStorage.setItem('cacheTimestamp', new Date().getTime().toString());
+//         console.log('Data dari server: ' + data);
+//     });
+// }
+
+// async function fetchDataFromServer() {
+//     // Lakukan permintaan ke server
+//     const response = await fetch('/nakhonmap');
+//     const data = await response.text();
+//     return data;
+// }
+

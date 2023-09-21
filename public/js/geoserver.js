@@ -3,7 +3,7 @@ const baseUrlGeo = 'http://localhost:8080/geoserver';
 
 // geoserver layer
 const chachoengsao_prov = L.layerGroup();
-const river_chachoengsao = L.layerGroup();  
+const river_chachoengsao = L.layerGroup();
 const crops_chachoengsao = L.layerGroup();
 const water_body = L.layerGroup();
 const building_polygon = L.layerGroup();
@@ -46,14 +46,14 @@ function handleLayerCheckboxChange(checkbox, layer) {
     }
 }
 
-// Daftar lapisan dan checkbox yang berkaitan
+// Daftar lapisan dan checkbox
 const layerCheckboxPairs = [
     { checkboxId: 'chachoengsao_prov', layer: chachoengsao_prov },
     { checkboxId: 'river_chachoengsao', layer: river_chachoengsao },
     { checkboxId: 'crops_chachoengsao', layer: crops_chachoengsao },
     { checkboxId: 'water_body', layer: water_body },
     { checkboxId: 'building_polygon', layer: building_polygon },
-    // Phichit Province
+    // Nakhon Phatom Province
     { checkboxId: 'admin_phichit', layer: admin_phichit },
     { checkboxId: 'agriculture_phichit', layer: agriculture_phichit },
     { checkboxId: 'change_line_phichit', layer: change_phichit },
@@ -61,7 +61,7 @@ const layerCheckboxPairs = [
     { checkboxId: 'rail_phichit', layer: rail_phichit },
 ];
 
-// Menambahkan event listener untuk setiap checkbox
+// event listener checkbox
 layerCheckboxPairs.forEach(function (pair) {
     const checkbox = document.getElementById(pair.checkboxId);
     checkbox.addEventListener('change', function () {

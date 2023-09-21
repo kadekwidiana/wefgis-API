@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CropChacoengsaoController;
+use App\Http\Controllers\NakhonController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,3 +37,8 @@ Route::get('/wateroccurence', [CropChacoengsaoController::class, 'waterOccurrenc
 Route::post('/precipitation',[CropChacoengsaoController::class, 'precipitation'])->name('precipitation');
 Route::post('/vci',[CropChacoengsaoController::class, 'vci'])->name('vci');
 Route::post('/evi',[CropChacoengsaoController::class, 'evi'])->name('evi');
+
+// GEE Nakhon Pathom
+Route::get('/nakhonwater', [CropChacoengsaoController::class, 'nakhonWater'])->name('nakhonWater');
+Route::get('/nakhonmap', [CropChacoengsaoController::class, 'nakhonMap'])->name('nakhonMap');
+Route::get('/pointNakhon', [NakhonController::class, 'pointNakhon'])->name('point-nakhon');

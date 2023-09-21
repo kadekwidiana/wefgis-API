@@ -2,6 +2,7 @@
 /* Sidebar basemap */
 .sidebar-basemap,
 .sidebar-layer,
+.sidebar-layer2,
 .sidebar-legend {
     position: fixed;
     right: -250px;
@@ -11,17 +12,15 @@
     /* padding-top: 60px; */
     transition: right 0.3s;
     z-index: 100;
-
     border: 1px solid grey;
-    /* Menambahkan border pada kontainer */
     padding: 10px;
-    /* Menambahkan ruang internal pada kontainer */
     overflow-y: auto;
     overflow-x: auto;
 }
 
 .sidebar-basemap.active,
 .sidebar-layer.active,
+.sidebar-layer2.active,
 .sidebar-legend.active {
     right: 0;
 }
@@ -36,6 +35,7 @@
 /* Transisi Container control basemap, layer, legend */
 .container-control-basemap,
 .container-control-layer,
+.container-control-layer2,
 .container-control-legend,
 .container-control-street-view {
     transition: right 0.3s;
@@ -44,6 +44,7 @@
 /* Button control basemap, layer, legend */
 .button-control-basemap,
 .button-control-layer,
+.button-control-layer2,
 .button-control-legend {
     background-color: transparent !important;
     border: none !important;
@@ -70,6 +71,24 @@
     cursor: pointer;
 }
 
+.button-control-legend-gee {
+    background-color: transparent !important;
+    border: none !important;
+    width: 150px;
+    /* Tentukan lebar tombol */
+    height: 250px;
+    /* Tentukan tinggi tombol */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* cursor: pointer; */
+}
+
+.custom-image-gee {
+    width: 100%;
+    height: 100%;
+}
+
 /* CSS untuk mengatur ukuran gambar pada tombol kontrol */
 .custom-image {
     width: 30px;
@@ -94,6 +113,24 @@
     /* Menambahkan ruang internal pada kontainer */
     overflow-y: auto;
     overflow-x: auto;
+}
+
+/* Display HP */
+@media (max-width: 480px) {
+
+    .sidebar-basemap,
+    .sidebar-layer,
+    .sidebar-layer2,
+    .sidebar-legend {
+        right: -200px;
+        width: 200px;
+    }
+
+    .sidebar-analisis-point,
+    .sidebar-analisis {
+        left: -250px;
+        width: 250px;
+    }
 }
 
 .sidebar-analisis-point.active,
