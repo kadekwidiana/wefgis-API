@@ -96,8 +96,8 @@ $(document).ready(function () {
                 const popupContent = `
                 <div class="popup-container">
                     <div class="popup-header">Class : ${data[index].class}</div>
-                    <div class="popup-coordinates">Coordinate : ${data[index].latitude},${data[index].longitude}</div>
                     <div class="popup-phenology">Phase : <span id="phenology-placeholder">Loading...</span></div>
+                    <div class="popup-coordinates">Coordinate : ${data[index].latitude},${data[index].longitude}</div>
                     <div class="popup-address mb-2">Address : <span id="address-placeholder">Loading...</span></div>
                     <div class="popup-address mb-2">
                     <a style="text-decoration: none;" href="http://maps.google.com/maps?q=&layer=c&cbll=${data[index].latitude},${data[index].longitude}&cbp=11,0,0,0" target="_blank"><b>Street View</b></a>
@@ -171,7 +171,7 @@ $(document).ready(function () {
                         contentType: "application/json",
                         success: function (response) {
                             // console.log(response.Phase);
-                            const phenology = response.Phase;
+                            const phenology = `${response.Phase}, ${response.Month} ${response.Year}`;
                             phenologyPlaceholder.textContent = phenology;
                         },
                         error: function (error) {
