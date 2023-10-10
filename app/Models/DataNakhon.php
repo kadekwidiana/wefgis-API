@@ -25,4 +25,11 @@ class DataNakhon extends Model
         'yes',
         'no',
     ];
+
+    public function projectCode()
+    {
+        return $this->belongsTo(ProjectCode::class, 'project_code', 'project_code');
+    }
+
+
 }

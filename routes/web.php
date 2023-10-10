@@ -37,6 +37,8 @@ Route::get('/wateroccurence', [CropChacoengsaoController::class, 'waterOccurrenc
 Route::post('/precipitation',[CropChacoengsaoController::class, 'precipitation'])->name('precipitation');
 Route::post('/vci',[CropChacoengsaoController::class, 'vci'])->name('vci');
 Route::post('/evi',[CropChacoengsaoController::class, 'evi'])->name('evi');
+// phenology crop
+Route::post('/phenology_crop',[CropChacoengsaoController::class, 'phenology_crop'])->name('phenology_crop');
 
 // GEE Nakhon Pathom
 Route::get('/nakhonwater', [CropChacoengsaoController::class, 'nakhonWater'])->name('nakhonWater');

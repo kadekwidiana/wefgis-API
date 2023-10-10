@@ -1,24 +1,24 @@
 // Layer draw
-const drawnItems = new L.FeatureGroup();
-map.addLayer(drawnItems);
+const drawnItems = new L.FeatureGroup(); //For save the elemen in draw
+map.addLayer(drawnItems); //Added fitur grup to maps
 const drawControl = new L.Control.Draw({
     position: 'topleft',
     draw: {
         polygon: {
             shapeOptions: {
-                color: 'green', // Warna border polygon
-                fillColor: 'rgba(0, 0, 0, 0.5)' // Warna fill polygon (biru transparan)
+                color: 'green', // Color border polygon
+                fillColor: 'rgba(0, 0, 0, 0.5)' // Fill color blue tranparant
             },
             allowIntersection: false,
             drawError: {
                 color: 'orange',
-                timeout: 1000
+                timeout: 1000 //= 1 second
             },
-            showArea: true,
+            showArea: true, //Show polygon area when draw
             metric: false,
             repeatMode: true
-        }
-        ,
+        },
+        // Fitur non aktif
         polyline: false,
         circlemarker: false, //circlemarker type has been disabled.
         rect: false,
@@ -30,72 +30,73 @@ const drawControl = new L.Control.Draw({
         featureGroup: drawnItems
     }
 });
-map.addControl(drawControl);
+map.addControl(drawControl); //Add to map
 
-// create data geojson
+// Create data geojson when draw element
 map.on('draw:created', function (e) {
     const type = e.layerType,
         layer = e.layer;
     drawnItems.addLayer(layer);
-
+    // Condition type marker
     if (type === 'marker') {
-        // Extract coordinates and altitude from the layer options
+        // Take coordinate from draw element
         const coordinates = layer.getLatLng();
         const lat = coordinates.lat;
         const lng = coordinates.lng;
 
-        // Add coordinates and altitude to respective HTML elements
+        // Add coordinates and type to respective HTML elements
         $('#geometry').val("[" + lng + "," + lat + "]");
         $('#type').val('point');
     }
-
+    // Condition type polygon
     if (type == 'polygon') {
+        // Take coordinate from draw element on JSON format
         const coordinates = layer.toGeoJSON().geometry.coordinates;
         $('#geometry').val(JSON.stringify(coordinates));
-
-        $('#type').val('polygon');
+        $('#type').val('polygon'); //Take type
 
         // Calculate and display the area
-        const area = turf.area(layer.toGeoJSON());
-        document.getElementById('area').value = area.toFixed(2);
+        // const area = turf.area(layer.toGeoJSON());
+        // document.getElementById('area').value = area.toFixed(2);
     }
 
 });
 
-// edit data geojson
+// Edit data geojson
 map.on('draw:edited', function (e) {
     const editedLayers = e.layers;
     editedLayers.eachLayer(function (layer) {
         const type = layer instanceof L.Marker ? 'marker' : 'polygon'; // Determine the edited shape type
 
         if (type === 'marker') {
-            // Extract coordinates and altitude from the layer options
+            // Extract coordinates from the layer options
             const coordinates = layer.getLatLng();
             const lat = coordinates.lat;
             const lng = coordinates.lng;
 
-            // Add coordinates and altitude to respective HTML elements
+            // Add coordinates to respective HTML elements
             $('#geometry').val("[" + lng + "," + lat + "]");
-            $('#type').val('Point');
+            $('#type').val('point'); //Make type
         }
 
         if (type == 'polygon') {
+            // Take coordinate from draw element on JSON format
             const coordinates = layer.toGeoJSON().geometry.coordinates;
             $('#geometry').val(JSON.stringify(coordinates));
-
-            $('#type').val('polygon');
+            $('#type').val('polygon'); //Make type
 
             // Calculate and display the area
-            const area = turf.area(layer.toGeoJSON());
-            document.getElementById('area').value = area.toFixed(2);
+            // const area = turf.area(layer.toGeoJSON());
+            // document.getElementById('area').value = area.toFixed(2);
         }
     });
 });
 
-// delete data geojson
+// Delete data geojson
 map.on('draw:deleted', function (e) {
     const deletedLayers = e.layers;
     deletedLayers.eachLayer(function (layer) {
+        //Destroy value in HTML
         $('#geometry').val('');
         $('#type').val('');
     });

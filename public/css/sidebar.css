@@ -1,8 +1,6 @@
 /* SIDEBAR RIGHT */
-/* Sidebar basemap */
 .sidebar-basemap,
 .sidebar-layer,
-.sidebar-layer2,
 .sidebar-legend {
     position: fixed;
     right: -250px;
@@ -35,7 +33,6 @@
 /* Transisi Container control basemap, layer, legend */
 .container-control-basemap,
 .container-control-layer,
-.container-control-layer2,
 .container-control-legend,
 .container-control-street-view {
     transition: right 0.3s;
@@ -44,93 +41,66 @@
 /* Button control basemap, layer, legend */
 .button-control-basemap,
 .button-control-layer,
-.button-control-layer2,
 .button-control-legend {
     background-color: transparent !important;
     border: none !important;
     width: 20px;
-    /* Tentukan lebar tombol */
     height: 30px;
-    /* Tentukan tinggi tombol */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
 }
 
+/* Button control street view */
 .button-control-street-view {
     background-color: transparent !important;
     border: none !important;
     width: 10px;
-    /* Tentukan lebar tombol */
     height: 25px;
-    /* Tentukan tinggi tombol */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
 }
 
+/* Legend GEE */
 .button-control-legend-gee {
     background-color: transparent !important;
     border: none !important;
-    width: 150px;
-    /* Tentukan lebar tombol */
-    height: 250px;
-    /* Tentukan tinggi tombol */
+    /* width: 80px; */
+    /* height: 250px; */
     display: flex;
     align-items: center;
     justify-content: center;
     /* cursor: pointer; */
 }
 
+/* style image legend GEE */
 .custom-image-gee {
     width: 100%;
     height: 100%;
 }
 
-/* CSS untuk mengatur ukuran gambar pada tombol kontrol */
+/* Style image for control button */
 .custom-image {
     width: 30px;
     height: 30px;
 }
 
 /* SIDEBAR LEFT */
-.sidebar-analisis-point,
 .sidebar-analisis {
     position: fixed;
     left: -450px;
     width: 450px;
     height: 100%;
     background-color: #343a40;
-    /* padding-top: 0px; */
     transition: left 0.3s;
     z-index: 100;
-
     border: 1px solid grey;
-    /* Menambahkan border pada kontainer */
     padding: 10px;
-    /* Menambahkan ruang internal pada kontainer */
     overflow-y: auto;
     overflow-x: auto;
-}
-
-/* Display HP */
-@media (max-width: 480px) {
-
-    .sidebar-basemap,
-    .sidebar-layer,
-    .sidebar-layer2,
-    .sidebar-legend {
-        right: -200px;
-        width: 200px;
-    }
-
-    .sidebar-analisis-point,
-    .sidebar-analisis {
-        left: -250px;
-        width: 250px;
-    }
 }
 
 .sidebar-analisis-point.active,
@@ -138,9 +108,9 @@
     left: 0;
 }
 
+/* Transition */
 /* Container control analisis */
 .container-control-analisis,
-.container-control-analisis-point,
 .leaflet-control-scale,
 /* search */
 .leaflet-control-geocoder,
@@ -151,7 +121,6 @@
 }
 
 /* Button control analisis */
-.button-control-analisis-point,
 .button-control-analisis {
     background-color: transparent !important;
     border: none !important;
@@ -163,4 +132,19 @@
     cursor: pointer;
 }
 
-/* tes */
+/* Display HP */
+/* Width sidebar left and right */
+@media (max-width: 480px) {
+
+    .sidebar-analisis {
+        left: -250px;
+        width: 250px;
+    }
+
+    .sidebar-basemap,
+    .sidebar-layer,
+    .sidebar-legend {
+        right: -200px;
+        width: 200px;
+    }
+}

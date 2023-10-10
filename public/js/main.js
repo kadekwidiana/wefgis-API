@@ -1,4 +1,4 @@
-// Basemaps
+// List Basemap
 const openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '©OpenStreetMap Contributors',
 });
@@ -51,6 +51,7 @@ const googleEarth = L.tileLayer('https://storage.googleapis.com/global-surface-w
     attribution: '©<a href="https://www.thunderforest.com/maps/landscape/">Thunderforest</a>',
 });
 
+// Init
 const _zoom = 10;
 const coorChachoengsao = [13.666790631230649, 101.35322935835381];
 const coorNakhon = [13.93136446765414, 100.086705447267];
@@ -64,14 +65,14 @@ const map = L.map('map', {
     zoomControl: false
 });
 
-// Event listener for radio inputs
+// Event listener for radio input select layer Chachoengsao and Nakhon
 const radioInputs = document.querySelectorAll('input[name="select_layer"]');
 radioInputs.forEach(input => {
     input.addEventListener('change', function () {
         // Get the selected layer value
         const selectedLayer = this.value;
-
         // Update map view based on the selected layer
+        // Display and  do not display div layer if selected input radio Chachoengsao or Nakhon
         if (selectedLayer === "chachoengsao") {
             $('#layer_chachoengsao').removeClass('d-none');
             $('#layer_nakhon').addClass('d-none');
@@ -89,7 +90,7 @@ const googleMapsLabel = L.tileLayer('https://earthengine.googleapis.com/v1/proje
     attribution: '©<a href="https://www.google.com/maps">Google Maps Label</a>',
 });
 
-// Fungsi untuk mengatur visibilitas lapisan Google Maps Label berdasarkan checkbox
+// Func for set visible layer Google Maps Label based checkbox selected
 function updateGoogleMapsLabelVisibility() {
     if (document.getElementById('googleMapsLabel').checked) {
         map.addLayer(googleMapsLabel);
@@ -97,10 +98,11 @@ function updateGoogleMapsLabelVisibility() {
         map.removeLayer(googleMapsLabel);
     }
 }
-// Event listener untuk mengaktifkan fungsi saat checkbox berubah
+// Event listener for active function while checkbox change
 document.getElementById('googleMapsLabel').addEventListener('change', updateGoogleMapsLabelVisibility);
 
 // Fungsi untuk mengganti basemap
+// Func for change selected basemap
 function changeBasemap(newBasemap) {
     map.eachLayer(function (layer) {
         if (layer !== newBasemap) {
@@ -110,7 +112,7 @@ function changeBasemap(newBasemap) {
     newBasemap.addTo(map);
 }
 
-// Daftar pilihan basemap dan elemen input yang berkaitan
+// List option basemap and id element input related in HTML
 const basemapOptions = [
     { name: 'openStreetMap', layer: openStreetMap },
     { name: 'googleStreetMap', layer: googleStreetMap },
@@ -124,17 +126,16 @@ const basemapOptions = [
     { name: 'googleEarth', layer: googleEarth }
 ];
 
-// Loop untuk menambahkan event listener ke setiap input
+// Loop for added eventlistener to every input in HTML
 basemapOptions.forEach(function (option) {
     document.querySelector('input[value="' + option.name + '"]').addEventListener('change', function () {
         changeBasemap(option.layer);
     });
 });
 
-// Memilih semua gambar basemap
+// Selected all image basemap in HTML
 const basemapImages = document.querySelectorAll('.sidebar-basemap img');
-
-// Menambahkan event listener pada setiap gambar basemap
+// Add eventlistener on every basemap image
 basemapImages.forEach(function (image) {
     image.addEventListener('click', function () {
         const radio = this.closest('label').querySelector('input[type="radio"]');
@@ -142,14 +143,14 @@ basemapImages.forEach(function (image) {
 
         const selectedBasemap = radio.value;
 
-        // Hapus basemap yang tidak terpilih
+        // Remove basemap was not selected
         basemapOptions.forEach(function (option) {
             if (option.name !== selectedBasemap) {
                 map.removeLayer(option.layer);
             }
         });
 
-        // Tambahkan basemap yang terpilih
+        // Condition and add basemap was selected
         switch (selectedBasemap) {
             case 'openStreetMap':
                 openStreetMap.addTo(map);
@@ -187,166 +188,146 @@ basemapImages.forEach(function (image) {
     });
 });
 
-// earth_engine layer
-const tci = L.layerGroup();
-const vci = L.layerGroup();
-const vhi = L.layerGroup();
-
-// earth data
-// $.getJSON("/earthData", function (data) {
-//     const tileLayers = {}; // Objek untuk menyimpan lapisan peta
-
-//     // Fungsi untuk membuat dan menambahkan lapisan peta
-//     function addTileLayer(key, url) {
-//         const tileLayer = L.tileLayer(url);
-//         tileLayer.addTo(map);
-//         tileLayers[key] = tileLayer;
-//     }
-
-//     addTileLayer('tci', data.map.tci);
-//     addTileLayer('vci', data.map.vci);
-//     addTileLayer('vhi', data.map.vhi);
-
-// }).fail(function (jqXHR, textStatus, error) {
-//     console.log("Error: " + error);
-// });
-
-// // Event listener untuk checkbox Crop
-// function toggleTileLayer(layerKey) {
-//     const layer = tileLayers[layerKey];
-//     if (layer) {
-//         return function () {
-//             if (this.checked) {
-//                 layer.addTo(map); // Menampilkan lapisan peta
-//             } else {
-//                 layer.removeFrom(map); // Menghilangkan lapisan peta
-//             }
-//         };
-//     }
-// }
-
-// // Mengaitkan event listener ke checkbox
-// document.getElementById('tci').addEventListener('change', toggleTileLayer('tci'));
-// document.getElementById('vci').addEventListener('change', toggleTileLayer('vci'));
-// document.getElementById('vhi').addEventListener('change', toggleTileLayer('vhi'));
-
-// Fungsi untuk menghancurkan grafik berdasarkan ID
+// ANALYSIS INFORMATION BASED Area Of Interest (AOI) which is depicted by users on maps use feature Draw Leaflet Js
+// Func for destroy or remove grafik based id in HTML
 function destroyChart(chartId) {
     const existingChart = Chart.getChart(chartId);
     if (existingChart) {
         existingChart.destroy();
     }
 }
-$(document).ready(function () {
-    $("#reqInfo").click(function () {
-        // Mengambil nilai dari input geometry dan type
-        const geometryValue = $("#geometry").val();
-        const typeValue = $('#type').val();
-        const inputStartYear = $('#startYear').val();
-        const inputEndYear = $('#endYear').val();
 
-        // Mendapatkan CSRF token dari meta tag HTML
-        const csrfToken = $('meta[name="csrf-token"]').attr('content');
+function getInputValues() {
+    return {
+        geometry: $("#geometry").val(),
+        type: $('#type').val(),
+        startYear: $('#startYear').val(),
+        endYear: $('#endYear').val(),
+        _token: $('meta[name="csrf-token"]').attr('content')
+    };
+}
 
-        // Data yang akan dikirim dalam permintaan POST
-        const postData = {
-            geometry: geometryValue,
-            type: typeValue,
-            startYear: inputStartYear,
-            endYear: inputEndYear
-        };
-
-        postData._token = csrfToken;
-
-        $('#loadingPrecipitation, #loadingVCI, #loadingEVI, #loadingMSI').removeClass('d-none');
-        $('#grafikPrecipitation, #grafikVCI, #grafikEVI, #grafikMSI').addClass('d-none');
+// Fungsi untuk menampilkan atau menyembunyikan elemen loading dan grafik
+function toggleLoadingAndChartElements(idTag, isLoading) { // idTag Html
+    if (isLoading) {
+        // isLoading true
+        $(`#loading${idTag}`).removeClass('d-none');
+        $(`#grafik${idTag}, #${idTag}_id`).addClass('d-none');
+        $(`#failedGet${idTag}`).addClass('d-none');
         $('#getInfo').addClass('d-none');
         $('#loadInfo').removeClass('d-none');
+    } else {
+        // isLoading false
+        $(`#loading${idTag}`).addClass('d-none');
+    }
+}
 
-        // Func untuk mengambil data dan membuat chart
-        function fetchDataAndCreateChart(url, responseKey, chartTitle, canvasId, layerMapGEE, idCheckBox) {
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: JSON.stringify(postData),
-                contentType: "application/json",
-                success: function (response) {
-                    switch (responseKey) {
-                        case 'precipitation':
-                            $('#loadingPrecipitation').addClass('d-none');
-                            $('#grafikPrecipitation, #precipitation_id').removeClass('d-none');
-                            break;
-                        case 'VCI':
-                            $('#loadingVCI').addClass('d-none');
-                            $('#grafikVCI, #vci_id').removeClass('d-none');
-                            break;
-                        case 'EVI':
-                            $('#loadingEVI').addClass('d-none');
-                            $('#grafikEVI, #evi_id').removeClass('d-none');
-                            break;
-                        case 'MSI':
-                            $('#loadingMSI').addClass('d-none');
-                            $('#grafikMSI, #msi_id').removeClass('d-none');
-                            $('#getInfo').removeClass('d-none');
-                            $('#loadInfo').addClass('d-none');
-                            break;
-                        default:
-                            break;
+// Func clear data response
+function clearDataResponse(responseDataGEE) {
+
+}
+
+
+$(document).ready(function () {
+    // Func parameter. url => request data to GEE, chartTitle => title on Chart, canvasId => element canvas the id, layerMapGEE => properti response GEE, idCheckBox => element id input checkbox
+    function fetchDataAndCreateChart(url, responseKey, chartTitle, canvasId, layerMapGEE, idCheckBox) {
+        // Call the func getInputValues()
+        const postData = getInputValues();
+        // Call the func toggleLoadingAndChartElements, value isLoading = true
+        toggleLoadingAndChartElements(layerMapGEE, true);
+        // request ajax
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify(postData),
+            contentType: "application/json",
+            success: function (response) {
+                // If there is response
+                if (response && response.map) {
+                    // Display in element html when response success
+                    $(`#loading${layerMapGEE}`).addClass('d-none');
+                    $(`#grafik${layerMapGEE}, #${idCheckBox}`).removeClass('d-none');
+                    // Condition based on value responseKey
+                    if (responseKey == 'MSI') {
+                        $('#getInfo').removeClass('d-none');
+                        $('#loadInfo').addClass('d-none');
                     }
 
-
+                    // Call destroyChart for destroy canvasId in HTML if canvas Id there is data
                     destroyChart(canvasId);
-                    console.log(response.map);
-
-                    // Mengatur ulang objek response.map menjadi objek kosong
-
-                    // response.map = {};
+                    // console.log(response);
+                    // Defined layer map from GEE which obtained
                     const layerMapFromGEE = L.tileLayer(response.map[layerMapGEE]);
-
-
+                    // Condition idCheckBox is checked
                     if ($('#' + idCheckBox).is(':checked')) {
-                        layerMapFromGEE.addTo(map); // Menampilkan lapisan VCI jika checkbox sudah dicentang
+                        layerMapFromGEE.addTo(map); //Display layer VCI automatic to map if checkbox already checked
+                        $('#c-gee').removeClass('d-none');
+                        // Change image legend bottomright
+                        switch (responseKey) {
+                            case 'precipitation':
+                                // imageLegend from var imageLegend in sidebar.js
+                                imageLegend.src = 'assets/icons/icon-legend/legend_precipitation.jpeg';
+                                break;
+                            case 'VCI':
+                                imageLegend.src = 'assets/icons/icon-legend/legend_vci.jpeg';
+                                break;
+                            case 'EVI':
+                                imageLegend.src = 'assets/icons/icon-legend/legend_evi.jpeg';
+                                break;
+                            case 'MSI':
+                                imageLegend.src = 'assets/icons/icon-legend/legend_msi.jpeg';
+                                break;
+                            default:
+                                break;
+                        }
                     }
+                    // Condition idCheckBox is checked in element html
                     $('#' + idCheckBox).on('change', function () {
                         if (this.checked) {
-                            layerMapFromGEE.addTo(map); // Menampilkan lapisan layer
+                            layerMapFromGEE.addTo(map); //Display layer to map if checkbox is checked
                         } else {
-                            layerMapFromGEE.removeFrom(map); // Menghilangkan lapisan layer
+                            layerMapFromGEE.removeFrom(map); //Remove layer in map if not checked
                         }
                     });
-
+                    // Take monthly data from response data from GEE
                     const monthlyData = response.data;
+                    // Determine data key that want to access
                     const dataKey = responseKey;
-
+                    // Initialization blank array for save data
                     const dataArray = [];
+                    // Loop through the monthly data and retrieve the appropriate values
                     for (let i = 0; i < monthlyData.length; i++) {
                         const value = monthlyData[i][dataKey];
                         dataArray.push(value);
                     }
-
+                    // Initialization blank object for save yearly data
                     const yearlyData = {};
+                    // Loop through monthly data to group data into yearly data
                     for (let i = 0; i < monthlyData.length; i++) {
+                        // Get the year of the data (assumes 'Year' or 'year' property)
                         const year = monthlyData[i].Year || monthlyData[i].year;
+                        // Get value which fits the data
                         const value = monthlyData[i][dataKey];
-
+                        // If the year is not already in the yearlyData object, initialize an array for that year
                         if (!yearlyData.hasOwnProperty(year)) {
                             yearlyData[year] = [];
                         }
-
+                        // Added value into the array appropriate year
                         yearlyData[year].push(value);
                     }
 
                     // Function to generate a random color
-                    function getRandomColor() {
-                        const letters = '0123456789ABCDEF';
-                        const color = '#';
-                        for (const i = 0; i < 6; i++) {
-                            color += letters[Math.floor(Math.random() * 16)];
-                        }
-                        return color;
-                    }
-
+                    // function getRandomColor() {
+                    //     const letters = '0123456789ABCDEF';
+                    //     const color = '#';
+                    //     for (const i = 0; i < 6; i++) {
+                    //         color += letters[Math.floor(Math.random() * 16)];
+                    //     }
+                    //     return color;
+                    // }
+                    // Init for save dataset
                     const datasets = [];
+                    // Color based on year
                     const colorMap = {
                         '2018': 'yellow',
                         '2019': 'orange',
@@ -354,9 +335,11 @@ $(document).ready(function () {
                         '2021': 'green',
                         '2022': 'blue'
                     };
+                    // Loop through yearly data
                     for (const year in yearlyData) {
                         if (yearlyData.hasOwnProperty(year)) {
                             const color = colorMap[year];
+                            // Make datasets object push to array datasets
                             datasets.push({
                                 label: year,
                                 data: yearlyData[year],
@@ -368,12 +351,13 @@ $(document).ready(function () {
                     }
 
                     // const markerIndex = data[index].id;
-
+                    // Get element canvasId context 2d
                     const ctx = document.getElementById(canvasId).getContext('2d');
-                    const chart = new Chart(ctx, {
+                    // Create graph used Chart.js
+                    new Chart(ctx, {
                         type: 'line',
                         data: {
-                            labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                            labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], //label x (month)
                             datasets: datasets,
                         },
                         options: {
@@ -384,8 +368,9 @@ $(document).ready(function () {
                                     maxTicksLimit: 12,
                                 },
                                 y: {
-                                    min: (responseKey === 'EVI' || responseKey === 'MSI') ? Math.min(...dataArray) - 1 : Math.min(...dataArray) - 10,
-                                    max: (responseKey === 'EVI' || responseKey === 'MSI') ? Math.max(...dataArray) + 1 : Math.max(...dataArray) + 50,
+                                    // min and max condition based responseKey
+                                    min: (responseKey === 'EVI' || responseKey === 'MSI') ? Math.min(...dataArray) - 0.1 : Math.min(...dataArray) - 10,
+                                    max: (responseKey === 'EVI' || responseKey === 'MSI') ? Math.max(...dataArray) + 0.1 : Math.max(...dataArray) + 50,
                                     beginAtZero: true,
                                 }
                             },
@@ -407,43 +392,48 @@ $(document).ready(function () {
                             }
                         }
                     });
-                },
-                error: function (error) {
-                    console.log("Fail:", error);
+
+                } else {
+                    // console.error('Errorrrr')
+                    // Display button in element html if error
                     $('#getInfo').removeClass('d-none');
                     $('#loadInfo').addClass('d-none');
-                    switch (responseKey) {
-                        case 'precipitation':
-                            $('#loadingPrecipitation').addClass('d-none');
-                            $('#failedGetPrecipitation').removeClass('d-none');
-                            break;
-                        case 'VCI':
-                            $('#loadingVCI').addClass('d-none');
-                            $('#failedGetVCI').removeClass('d-none');
-                            break;
-                        case 'EVI':
-                            $('#loadingEVI').addClass('d-none');
-                            $('#failedGetEVI').removeClass('d-none');
-                            break;
-                        case 'MSI':
-                            $('#loadingMSI').addClass('d-none');
-                            $('#failedGetMSI').removeClass('d-none');
-                            break;
-                        default:
-                            break;
-                    }
+                    // Condition based on responseKey
+                    // Call the func toggleLoadingAndChartElements. idTag from parameter layerMapGEE, isLoading = false
+                    toggleLoadingAndChartElements(layerMapGEE, false);
+                    // Display element #failedGet in every section display graphic
+                    $(`#failedGet${layerMapGEE}`).removeClass('d-none');
                 }
-            });
-        }
-        // Pemanggilan fungsi untuk endpoint
-        fetchDataAndCreateChart("/precipitation", "precipitation", "Cumulative Rainfall (mm)", "chartRequestPrecipitation", "Precipitation", "precipitation_id");
-        fetchDataAndCreateChart("/vci", "VCI", "VCI", "chartRequestVci", "VCI", "vci_id");
-        fetchDataAndCreateChart("/evi", "EVI", "EVI", "chartRequestEvi", "EVI", "evi_id");
-        fetchDataAndCreateChart("/evi", "MSI", "MSI", "chartRequestMsi", "MSI", "msi_id");
-    });
+            },
+            // Error handle
+            error: function (error) {
+                // console.log("Fail:", error);
+                // Display button in element html if error
+                $('#getInfo').removeClass('d-none');
+                $('#loadInfo').addClass('d-none');
+                // Call the func toggleLoadingAndChartElements. idTag from parameter layerMapGEE, isLoading = false
+                toggleLoadingAndChartElements(layerMapGEE, false);
+                // Display element #failedGet in every section display graphic
+                $(`#failedGet${layerMapGEE}`).removeClass('d-none');
+            }
+        });
+    }
+
+    // Func for init when button onclick
+    function initializeOnClickActions() {
+        $("#reqInfo").click(function () {
+            fetchDataAndCreateChart("/precipitation", "precipitation", "Cumulative Rainfall (mm)", "chartRequestPrecipitation", "Precipitation", "precipitation_id");
+            fetchDataAndCreateChart("/vci", "VCI", "VCI", "chartRequestVci", "VCI", "vci_id");
+            fetchDataAndCreateChart("/evi", "EVI", "EVI", "chartRequestEvi", "EVI", "evi_id");
+            fetchDataAndCreateChart("/evi", "MSI", "MSI", "chartRequestMsi", "MSI", "msi_id");
+        });
+    }
+    // Call the func
+    initializeOnClickActions();
+
 });
 
-// search
+// Feature search with GeoCoder plugin
 const osmGeocoder = new L.Control.Geocoder({
     collapsed: true,
     position: 'topleft',
@@ -478,21 +468,245 @@ checkboxes.forEach(function (checkbox) {
     });
 });
 
+
+
+// POINT NAKHON
+const finalNakhon = L.layerGroup();
+
+// Func create icon marker
+function iconFinalNakhon(iconUrl) {
+    return L.icon({
+        iconUrl: iconUrl,
+        iconSize: [25, 32],
+        iconAnchor: [16, 32],
+        popupAnchor: [0, -32]
+    });
+}
+
+function checkboxFinalNakhon(checkboxId, layer) {
+    document.getElementById(checkboxId).addEventListener('change', function () {
+        if (this.checked) {
+            layer.addTo(map); // Dislay layer to map
+        } else {
+            layer.removeFrom(map); // Remove layer
+        }
+    });
+}
+
+checkboxFinalNakhon('final_nakhon', finalNakhon);
+
 $.getJSON("/pointNakhon", function (data) {
     // console.log(data);
     $.each(data, function (index) {
-        // console.log(data[index].project_name);
-        // console.log(data[index].longitude);
-        L.marker([parseFloat(data[index].latitude), parseFloat(data[index]
-            .longitude)],
-        ).addTo(map)
+        const marker = L.marker([parseFloat(data[index].latitude), parseFloat(data[index]
+            .longitude)], { icon: iconFinalNakhon(`${data[index].icon}`) }
+        );
+        const popupContent = `
+        <div class="popup-container2">
+            <div class="popup-header">Name : ${data[index].project_name}</div>
+            <div class="popup-coordinates">Coordinate : ${data[index].latitude},${data[index].longitude}</div>
+            <div class="popup-address mb-2">Address : <span id="address-placeholder">Loading...</span></div>
+            <div class="popup-address mb-2">
+            <a style="text-decoration: none;" href="http://maps.google.com/maps?q=&layer=c&cbll=${data[index].latitude},${data[index].longitude}&cbp=11,0,0,0" target="_blank"><b>Street View</b></a>
+            </div>
+
+            <!-- Add Bootstrap tabs -->
+            <ul class="nav nav-tabs justify-content-center" role="tablist">
+            <li class="nav-item"><a class="nav-link active" href="#chart1-${data[index].id}" role="tab" data-toggle="tab">Cumulative Rainfall</a></li>
+            <li class="nav-item"><a class="nav-link" href="#chart2-${data[index].id}" role="tab" data-toggle="tab">VCI</a></li>
+            </ul>
+
+            <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="chart1-${data[index].id}">
+                <div id="failed1">Data not found</div>
+                <div id="loading1"><div class="spinner-border text-secondary" role="status">
+                <span class="visually-hidden">Loading...</span>
+                </div></div>
+                <canvas id="myChart1${data[index].id}" width="600" height="400"></canvas>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="chart2-${data[index].id}">
+                <div id="failed2">Data not found</div>
+                <div id="loading2">
+                <div class="spinner-border text-secondary" role="status">
+                <span class="visually-hidden">Loading...</span>
+                </div>
+                </div>
+                <canvas id="myChart2${data[index].id}" width="600" height="400"></canvas>
+            </div>
+            </div>
+        </div>
+        `;
+        // Popup set content
+        const popup = L.popup().setContent(popupContent);
+        marker.addTo(finalNakhon).bindPopup(popup);
+        // console.log(`code : ${data[index].project_code} icon : ${data[index].icon}`);
+        // // console.log(data[index].longitude);
+        // L.marker([parseFloat(data[index].latitude), parseFloat(data[index]
+        //     .longitude)], { icon: iconFinalNakhon(`${data[index].icon}`) }
+        // ).addTo(finalNakhon);
+        marker.on('click', function () {
+            const addressPlaceholder = document.getElementById('address-placeholder');
+            // Get address with request to nominatim.openstreetmap API
+            $.getJSON(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${data[index].latitude}&lon=${data[index].longitude}&zoom=18&addressdetails=1`, function (data) {
+                const address = data.display_name;
+                addressPlaceholder.textContent = address;
+            });
+
+            $('#failed1').hide();
+            $('#failed2').hide();
+
+            // Get CRSF token from meta tag HTML
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+            const postData = {
+                geometry: '[' + data[index].longitude + ',' + data[index].latitude + ']',
+                type: 'point',
+                startYear: 2020,
+                endYear: 2022
+            };
+
+            postData._token = csrfToken;
+
+            // Func parameter for take data and make chart
+            function fetchDataAndCreateChart(url, responseKey, chartTitle, canvasId) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify(postData),
+                    contentType: "application/json",
+                    success: function (response) {
+                        // Destroy based condition responseKey
+                        if (responseKey === 'precipitation') {
+                            $('#loading1').addClass('d-none');
+                        } else if (responseKey === 'VCI') {
+                            $('#loading2').addClass('d-none');
+                        }
+                        // Take monthly data from response API
+                        const monthlyData = response.data;
+                        // Determine data key that want to access
+                        const dataKey = responseKey;
+                        // Initialization blank array for save data
+                        const dataArray = [];
+                        // Loop through the monthly data and retrieve the appropriate values
+                        for (let i = 0; i < monthlyData.length; i++) {
+                            const value = monthlyData[i][dataKey];
+                            dataArray.push(value);
+                        }
+                        // Init blank object for save yearly data
+                        const yearlyData = {};
+                        // Loop through monthly data to group data into yearly data
+                        for (let i = 0; i < monthlyData.length; i++) {
+                            // Get the year of the data (assumes 'Year' or 'year' property)
+                            const year = monthlyData[i].Year || monthlyData[i].year; // Adjust based on your response structure
+                            // Get value which fits the data
+                            const value = monthlyData[i][dataKey];
+                            // If the year is not already in the yearlyData object, initialize an array for that year
+                            if (!yearlyData.hasOwnProperty(year)) {
+                                yearlyData[year] = [];
+                            }
+                            // Added value into the array appropriate year
+                            yearlyData[year].push(value);
+                        }
+
+                        // Function to generate a random color
+                        // function getRandomColor() {
+                        //     const letters = '0123456789ABCDEF';
+                        //     const color = '#';
+                        //     for (const i = 0; i < 6; i++) {
+                        //         color += letters[Math.floor(Math.random() * 16)];
+                        //     }
+                        //     return color;
+                        // }
+                        // Init for save dataset
+                        const datasets = [];
+                        // Color based on year
+                        const colorMap = {
+                            '2018': 'yellow',
+                            '2019': 'orange',
+                            '2020': 'red',
+                            '2021': 'green',
+                            '2022': 'blue'
+                        };
+                        // Loop through yearly data
+                        for (const year in yearlyData) {
+                            if (yearlyData.hasOwnProperty(year)) {
+                                const color = colorMap[year];
+                                // Make datasets object push to array datasets
+                                datasets.push({
+                                    label: year,
+                                    data: yearlyData[year],
+                                    backgroundColor: color,
+                                    borderColor: color,
+                                    borderWidth: 1,
+                                });
+                            }
+                        }
+                        // Marker index based on data[index]
+                        const markerIndex = data[index].id;
+                        // Get element canvasId context 2d
+                        const ctx = document.getElementById(canvasId + markerIndex).getContext('2d');
+                        // Create graph used Chart.js
+                        new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], //label x (month)
+                                datasets: datasets,
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    x: {
+                                        beginAtZero: true,
+                                        maxTicksLimit: 12,
+                                    },
+                                    y: {
+                                        // min and max condition
+                                        min: Math.min(...dataArray) - 20,
+                                        max: Math.max(...dataArray) + 50,
+                                        beginAtZero: true,
+                                    }
+                                },
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: chartTitle,
+                                        position: 'top'
+                                    },
+                                    legend: {
+                                        display: true,
+                                        position: 'bottom',
+                                        labels: {
+                                            usePointStyle: true,
+                                            pointStyle: 'circle',
+                                            pointRadius: 8,
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    },
+                    // Error handle
+                    error: function (error) {
+                        console.log("Fail:", error);
+                        // Display if error based responseKey
+                        if (responseKey === 'precipitation') {
+                            $('#loading1').addClass('d-none');
+                            $('#failed1').show();
+                        } else if (responseKey === 'VCI') {
+                            $('#loading2').addClass('d-none');
+                            $('#failed2').show();
+                        }
+                    }
+                });
+            }
+            // Call Func fetchDataAndCreateChart() according to the parameters
+            fetchDataAndCreateChart("/precipitation", "precipitation", "Cumulative Rainfall (mm)", "myChart1");
+            fetchDataAndCreateChart("/vci", "VCI", "VCI", "myChart2");
+        });
     })
 }).fail(function (jqXHR, textStatus, error) {
     // console.log("Error: " + error);
 });
-
-
-
 
 
 

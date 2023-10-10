@@ -120,4 +120,23 @@ class CropChacoengsaoController extends Controller
             return response()->json(['error' => 'API request failed'], 500);
         }
     }
+
+    // API phenology crop
+    public function phenology_crop(Request $request){
+        $point = $request->input('point');
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        $client = new Client;
+        $response = $client->post('https://mapping.wefgis.com/detect_phenology', [
+            'form_params' => [
+                'point' => $point,
+                'year' => $year,
+                'month' => $month,
+            ]
+        ]);
+        $responseData = json_decode($response->getBody(), true);
+    
+        return response()->json($responseData);
+    }
 }

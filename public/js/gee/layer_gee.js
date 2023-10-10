@@ -1,11 +1,15 @@
-// WATER GEE
-// Inisialisasi objek untuk menyimpan tile layer dan layer group
+// DATA FROM Google Eart Engine API
+// Init object for save id HTML, mapKey response, layerGroup, and tileLayer
 const layersConfig1 = {
     // GEE Chachoengsao
     ChangeIntensity: {
+        // id in html
         id: 'change_intensity',
+        // mapKey response API
         mapKey: 'ChangeIntensity',
+        // layerGroup for save data.map response API
         layerGroup: L.layerGroup(),
+        // tileLayer for url map from response API
         tileLayer: null,
     },
     IGBP: {
@@ -42,7 +46,6 @@ const layersConfig1 = {
 
 const layersConfig2 = {
     // GEE Nakhon Pathom
-    // Map
     AdminNakhon: {
         id: 'nakhon_admin',
         mapKey: 'nakhon_admin',
@@ -103,7 +106,7 @@ const layersConfig3 = {
     },
 }
 
-// Fungsi untuk membuat tile layer dan menambahkannya ke layer group
+// Func for make tileLayer and added to layerGroup
 function createAndAddTileLayer(mapKey, layerGroup, url, layersConfig) {
     const tileLayer = L.tileLayer(url, {
         attribution: '©Google Earth Engine Contributors'
@@ -112,38 +115,46 @@ function createAndAddTileLayer(mapKey, layerGroup, url, layersConfig) {
     layersConfig[mapKey].tileLayer = tileLayer;
 }
 
-// Fungsi untuk menangani perubahan status checkbox
+// Func for handle status change checkbox
 function handleCheckboxChange(mapKey, layersConfig) {
+    // Get layerGroup and tileLayer
     const { layerGroup, tileLayer } = layersConfig[mapKey];
+    // List for display legend when checkbox cheked
     const visibleKeys = ['ChangeIntensity', 'IGBP', 'LST', 'Occurrence', 'WaterSeason', 'Transition'];
     return function () {
         if (this.checked) {
-            layerGroup.addTo(map);
+            layerGroup.addTo(map); //Add layer to map
             // console.log(layersConfig[mapKey].mapKey)
-            if (visibleKeys.includes(layersConfig[mapKey].mapKey)) {
-                $('#c-gee').removeClass('d-none');
-            }
+            // if (visibleKeys.includes(layersConfig[mapKey].mapKey)) {
+            //     // $('#c-gee').removeClass('d-none');
+            // }
         } else {
             // $('#c-gee').addClass('d-none');
-            layerGroup.removeFrom(map); 
+            layerGroup.removeFrom(map); //Remove layer
         }
     };
 }
-
-// Ambil data saat halaman dimuat
+// ASYNC
+// Get data and create layer when the page loads
 async function fetchDataAndCreateLayers(url, layersConfig, handleCheckboxChange) {
     try {
         const data = await $.getJSON(url);
         console.log(data);
+        // [] for save promises create layer
         const promises = [];
+        // Iterate through the configuration of the layers
         for (const mapKey in layersConfig) {
+            // Url layer from data
             const url = data.map[layersConfig[mapKey].mapKey];
+            // Create and add tile layers to layer groups
             promises.push(createAndAddTileLayer(mapKey, layersConfig[mapKey].layerGroup, url, layersConfig));
+            // Added event listeners for checkboxes associated with layers
             document.getElementById(layersConfig[mapKey].id).addEventListener('change', handleCheckboxChange(mapKey, layersConfig));
         }
+        // Wait for all promises to complete before continuing
         await Promise.all(promises);
     } catch (error) {
-        // Handle errors here
+        // Handle error
         console.error("Error:", error);
     }
 }
@@ -162,8 +173,9 @@ async function fetchDataAndCreateLayers(url, layersConfig, handleCheckboxChange)
 //     });
 // }
 
-// Dokumen siap
+// Dokumen ready
 $(document).ready(function () {
+    // Call fetchDataAndCreateLayers() for URL different layers and appropriate layer configurations
     fetchDataAndCreateLayers("/wateroccurence", layersConfig1, handleCheckboxChange);
     fetchDataAndCreateLayers("/nakhonmap", layersConfig2, handleCheckboxChange);
     fetchDataAndCreateLayers("/nakhonwater", layersConfig3, handleCheckboxChange);
