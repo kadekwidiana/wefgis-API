@@ -5,6 +5,7 @@ use App\Http\Controllers\API\AUTH\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\CropController;
+use App\Http\Controllers\API\PredCropController;
 use App\Http\Controllers\API\TypeController;
 use App\Http\Controllers\API\UserController;
 
@@ -45,3 +46,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // data agregat
     Route::get('data-agregat', [CropController::class, 'dataAgregat'])->name('data-agregat');
 });
+
+// model crop
+Route::post('/predCrop',[PredCropController::class, 'predCrop'])->name('predCrop');

@@ -79,7 +79,7 @@ radioInputs.forEach(input => {
             map.setView(coorChachoengsao, _zoom);
         } else if (selectedLayer === "nakhon") {
             $('#layer_chachoengsao').addClass('d-none');
-            $('#layer_nakhon').removeClass('d-none');
+            $('#layer_nakhon').removeClass('d-none'); 
             map.setView(coorNakhon, _zoom);
         }
     });
