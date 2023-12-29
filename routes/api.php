@@ -49,3 +49,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 // model crop
 Route::post('/predCrop',[PredCropController::class, 'predCrop'])->name('predCrop');
+
+Route::get('buku', [PredCropController::class, 'index'])->name('index');
